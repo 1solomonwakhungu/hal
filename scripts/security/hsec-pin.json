@@ -1,0 +1,400 @@
+{
+  "advisory_tree": {
+    "advisories/.gitkeep": {
+      "mode": "100644",
+      "sha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+    },
+    "advisories/ghc/ghc/HSEC-2024-0007.md": {
+      "mode": "120000",
+      "sha": "4545b71bb01edb949f340fc943ee08a23b81f534"
+    },
+    "advisories/ghc/ghc/HSEC-2024-0008.md": {
+      "mode": "120000",
+      "sha": "454de9bdc555f9301ce5872db02edd3b1e113242"
+    },
+    "advisories/ghc/ghc/HSEC-2025-0001.md": {
+      "mode": "120000",
+      "sha": "50450e34d8a43681761c535b791612f52f3b9546"
+    },
+    "advisories/hackage/aeson/HSEC-2023-0001.md": {
+      "mode": "120000",
+      "sha": "f3994a0fb3c88159a95252c378ca734291291847"
+    },
+    "advisories/hackage/base/HSEC-2023-0007.md": {
+      "mode": "120000",
+      "sha": "6c0a0c2ef05482572b256d41e3a2ce617c1cd6a2"
+    },
+    "advisories/hackage/base/HSEC-2024-0006.md": {
+      "mode": "120000",
+      "sha": "d6b05ba6fcba997dfffafa3ffff1940bcdab6cff"
+    },
+    "advisories/hackage/biscuit-haskell/HSEC-2023-0002.md": {
+      "mode": "120000",
+      "sha": "1fb6435ae4879420d53e0e306b137ec3b6778e3f"
+    },
+    "advisories/hackage/biscuit-haskell/HSEC-2024-0009.md": {
+      "mode": "120000",
+      "sha": "e40d9c7fc5e41bc22e1ac29986ea59b2367ca72a"
+    },
+    "advisories/hackage/bz2/HSEC-2024-0002.md": {
+      "mode": "120000",
+      "sha": "5c8e16468c22e9c7451f785dace9d6a7fb5a0c7a"
+    },
+    "advisories/hackage/bzlib-conduit/HSEC-2024-0002.md": {
+      "mode": "120000",
+      "sha": "5c8e16468c22e9c7451f785dace9d6a7fb5a0c7a"
+    },
+    "advisories/hackage/bzlib/HSEC-2024-0002.md": {
+      "mode": "120000",
+      "sha": "5c8e16468c22e9c7451f785dace9d6a7fb5a0c7a"
+    },
+    "advisories/hackage/cabal-install/HSEC-2023-0015.md": {
+      "mode": "120000",
+      "sha": "61f2fe658129ced67990ef925ccb5fcc45be5c40"
+    },
+    "advisories/hackage/cabal-install/HSEC-2025-0005.md": {
+      "mode": "120000",
+      "sha": "c8f781a0b6feae44d4b340716502839d12c03b8e"
+    },
+    "advisories/hackage/cmark-gfm/HSEC-2025-0007.md": {
+      "mode": "120000",
+      "sha": "e37f533a6e7468b2cf82e7f7cdc5916d18999c49"
+    },
+    "advisories/hackage/crypton-x509-store/HSEC-2025-0006.md": {
+      "mode": "120000",
+      "sha": "43f2e9e0457faceb780e354c4b8f6062e7a08f9a"
+    },
+    "advisories/hackage/crypton/HSEC-2025-0002.md": {
+      "mode": "120000",
+      "sha": "5a6c071b0d06d67b3f3bf564497b84e3047bbdb4"
+    },
+    "advisories/hackage/cryptonite/HSEC-2025-0002.md": {
+      "mode": "120000",
+      "sha": "5a6c071b0d06d67b3f3bf564497b84e3047bbdb4"
+    },
+    "advisories/hackage/git-annex/HSEC-2023-0009.md": {
+      "mode": "120000",
+      "sha": "616c6f4012f77aaad26b60900c3fe79f9b929975"
+    },
+    "advisories/hackage/git-annex/HSEC-2023-0010.md": {
+      "mode": "120000",
+      "sha": "241a6dca8c89ab9bde2d76ef142041c89de886ec"
+    },
+    "advisories/hackage/git-annex/HSEC-2023-0011.md": {
+      "mode": "120000",
+      "sha": "dc45a9172ae1b874770d18afabeb9d68cb8cd9aa"
+    },
+    "advisories/hackage/git-annex/HSEC-2023-0012.md": {
+      "mode": "120000",
+      "sha": "e01acc41937f6e746f633b9f1f651b7cc4d95a00"
+    },
+    "advisories/hackage/git-annex/HSEC-2023-0013.md": {
+      "mode": "120000",
+      "sha": "5cd3d14bb8b961c9b5f98a117d7ce2840e346a26"
+    },
+    "advisories/hackage/hackage-server/HSEC-2024-0004.md": {
+      "mode": "120000",
+      "sha": "7f2a0d39b192520c035dc616feaf26b164f8e008"
+    },
+    "advisories/hackage/hackage-server/HSEC-2026-0002.md": {
+      "mode": "120000",
+      "sha": "cfe514d647906166571ff6654f4bc1d53038d320"
+    },
+    "advisories/hackage/hackage-server/HSEC-2026-0004.md": {
+      "mode": "120000",
+      "sha": "81066eff76cda599bf2996d02de9ba64a4b77689"
+    },
+    "advisories/hackage/hledger-web/HSEC-2023-0008.md": {
+      "mode": "120000",
+      "sha": "c1af61f9c0158fb358bb7ab89178510e7f075b35"
+    },
+    "advisories/hackage/jwt/HSEC-2026-0010.md": {
+      "mode": "120000",
+      "sha": "f345b5c32ac494911ecd5865a43f10199d471818"
+    },
+    "advisories/hackage/keter/HSEC-2024-0001.md": {
+      "mode": "120000",
+      "sha": "89bff91c5f760d5b1e060f8558e7702c8c13ba5e"
+    },
+    "advisories/hackage/pandoc/HSEC-2023-0014.md": {
+      "mode": "120000",
+      "sha": "fdfeca589c9fe20147869f835bd913244fb6192b"
+    },
+    "advisories/hackage/process/HSEC-2024-0003.md": {
+      "mode": "120000",
+      "sha": "d416f8db88fc0c4f81463d75851f5a08db2ad167"
+    },
+    "advisories/hackage/scientific/HSEC-2026-0011.md": {
+      "mode": "120000",
+      "sha": "5d006d43b5796ea114de84987c4a79df048101c6"
+    },
+    "advisories/hackage/scientific/HSEC-2026-0012.md": {
+      "mode": "120000",
+      "sha": "910b97ab4d7a538eae7f1ecd46ac44dd7687daf2"
+    },
+    "advisories/hackage/spacecookie/HSEC-2025-0004.md": {
+      "mode": "120000",
+      "sha": "193a11e534f33b48fc1a5e8ae4e08ff6ebe020b3"
+    },
+    "advisories/hackage/tls-extra/HSEC-2023-0005.md": {
+      "mode": "120000",
+      "sha": "79154ffacd372b62b2dd73c80ed0dd4475b6d780"
+    },
+    "advisories/hackage/toml-reader/HSEC-2023-0007.md": {
+      "mode": "120000",
+      "sha": "6c0a0c2ef05482572b256d41e3a2ce617c1cd6a2"
+    },
+    "advisories/hackage/warp/HSEC-2026-0013.md": {
+      "mode": "120000",
+      "sha": "def1467cb8901de9037e8f5f22a1d5faf3d0997e"
+    },
+    "advisories/hackage/x509-store/HSEC-2025-0006.md": {
+      "mode": "120000",
+      "sha": "43f2e9e0457faceb780e354c4b8f6062e7a08f9a"
+    },
+    "advisories/hackage/x509-validation/HSEC-2023-0006.md": {
+      "mode": "120000",
+      "sha": "61fe63f53b7f7be9abed522b114a780f1d570f4f"
+    },
+    "advisories/hackage/xml-conduit/HSEC-2023-0004.md": {
+      "mode": "120000",
+      "sha": "32f91ae4aa3c3d65d9f9cd69c2195abb1c9ae3f7"
+    },
+    "advisories/hackage/xmonad-contrib/HSEC-2023-0003.md": {
+      "mode": "120000",
+      "sha": "9a7e1c7424b9e18e276c02e492c7695cfcac2f28"
+    },
+    "advisories/hackage/xz-clib/HSEC-2025-0003.md": {
+      "mode": "120000",
+      "sha": "a20eacd3b483883b012a394eaf37c8d75da10d69"
+    },
+    "advisories/published/2023/HSEC-2023-0001.md": {
+      "mode": "100644",
+      "sha": "b8aa88a24057e9be76a59eb80b53796c127baaa7"
+    },
+    "advisories/published/2023/HSEC-2023-0002.md": {
+      "mode": "100644",
+      "sha": "9fba4bd7268abbdf09f1d4e722121021fee373ac"
+    },
+    "advisories/published/2023/HSEC-2023-0003.md": {
+      "mode": "100644",
+      "sha": "e5fb1a739736943c93bf1d711bd738231b63bc98"
+    },
+    "advisories/published/2023/HSEC-2023-0004.md": {
+      "mode": "100644",
+      "sha": "68e477e4d30b8b0abae595e767b3efdbd27bde57"
+    },
+    "advisories/published/2023/HSEC-2023-0005.md": {
+      "mode": "100644",
+      "sha": "acb61ec1d72e3a7e299bffa31bff6cb0ac7b1146"
+    },
+    "advisories/published/2023/HSEC-2023-0006.md": {
+      "mode": "100644",
+      "sha": "da8f6b6aa92aa309468381dd3d6bbf70abb8c3ef"
+    },
+    "advisories/published/2023/HSEC-2023-0007.md": {
+      "mode": "100644",
+      "sha": "0987d8c8261962d5f8834dcf8787ae1a89774883"
+    },
+    "advisories/published/2023/HSEC-2023-0008.md": {
+      "mode": "100644",
+      "sha": "9746784c83b40a372dda561074a2f354ed24f276"
+    },
+    "advisories/published/2023/HSEC-2023-0009.md": {
+      "mode": "100644",
+      "sha": "237e185971870218422d34f488eadcbceeaa2437"
+    },
+    "advisories/published/2023/HSEC-2023-0010.md": {
+      "mode": "100644",
+      "sha": "9b31b9073622de7e132cbf8dc4c62077c83f360a"
+    },
+    "advisories/published/2023/HSEC-2023-0011.md": {
+      "mode": "100644",
+      "sha": "7adc7c0e588943dfed82d1a5f15d395fc3175b4f"
+    },
+    "advisories/published/2023/HSEC-2023-0012.md": {
+      "mode": "100644",
+      "sha": "c0d6ba266f0692dae936a32b52ab20c7b968b9f0"
+    },
+    "advisories/published/2023/HSEC-2023-0013.md": {
+      "mode": "100644",
+      "sha": "ff59b37bddb5a248176f88efc5fc3c21eb83e140"
+    },
+    "advisories/published/2023/HSEC-2023-0014.md": {
+      "mode": "100644",
+      "sha": "4fe6be14116457d399287b2beb36537af4fa7dad"
+    },
+    "advisories/published/2023/HSEC-2023-0015.md": {
+      "mode": "100644",
+      "sha": "529845b9ef3fcfa77c3bee404b25d65117e4d6a3"
+    },
+    "advisories/published/2024/HSEC-2024-0001.md": {
+      "mode": "100644",
+      "sha": "324c8fdc156558650f5ccc8b18aa0162ab468d66"
+    },
+    "advisories/published/2024/HSEC-2024-0002.md": {
+      "mode": "100644",
+      "sha": "d9e49d1f0e405426b387f51f3cf6e14e7dd2baee"
+    },
+    "advisories/published/2024/HSEC-2024-0003.md": {
+      "mode": "100644",
+      "sha": "76d910a838659c0a7953a82355d05988027cc911"
+    },
+    "advisories/published/2024/HSEC-2024-0004.md": {
+      "mode": "100644",
+      "sha": "720f6ba9debb90657a2dcb07f689ec7d5bbfba8b"
+    },
+    "advisories/published/2024/HSEC-2024-0006.md": {
+      "mode": "100644",
+      "sha": "593bd5fa95c1b4c9b8627b10ba9c549eb02ed86a"
+    },
+    "advisories/published/2024/HSEC-2024-0007.md": {
+      "mode": "100644",
+      "sha": "c5cac3a0650ef760002d34b26d470d12a193aa9f"
+    },
+    "advisories/published/2024/HSEC-2024-0008.md": {
+      "mode": "100644",
+      "sha": "b19a0134934c2cd017482ecc073c8c3b8264a704"
+    },
+    "advisories/published/2024/HSEC-2024-0009.md": {
+      "mode": "100644",
+      "sha": "38b2f33be6edbd5bba4b9ab18f235a017e7a7a14"
+    },
+    "advisories/published/2025/HSEC-2025-0001.md": {
+      "mode": "100644",
+      "sha": "4c8818dda110f444ed4ba5c205595483dc9b4648"
+    },
+    "advisories/published/2025/HSEC-2025-0002.md": {
+      "mode": "100644",
+      "sha": "57f309f61cc91a2a7a21224e0f961f2dc8c0e8af"
+    },
+    "advisories/published/2025/HSEC-2025-0003.md": {
+      "mode": "100644",
+      "sha": "2680ebefcc5f5862df1ae65b7c9d111a75884421"
+    },
+    "advisories/published/2025/HSEC-2025-0004.md": {
+      "mode": "100644",
+      "sha": "58a6cfa6ef227b7867d226b6d53cc4a0fc9c0e8f"
+    },
+    "advisories/published/2025/HSEC-2025-0005.md": {
+      "mode": "100644",
+      "sha": "bf996abdd431228490686a896d3e0d7f79580a5e"
+    },
+    "advisories/published/2025/HSEC-2025-0006.md": {
+      "mode": "100644",
+      "sha": "79f555c60c637230b305e29b7ba77ddce2ff75dd"
+    },
+    "advisories/published/2025/HSEC-2025-0007.md": {
+      "mode": "100644",
+      "sha": "72530439a2a445bcec5d635e57d7d7ac9ce2f166"
+    },
+    "advisories/published/2026/HSEC-2026-0002.md": {
+      "mode": "100644",
+      "sha": "1f710d280aa1f7ab29949fe5eb5eefe2f2f7d124"
+    },
+    "advisories/published/2026/HSEC-2026-0004.md": {
+      "mode": "100644",
+      "sha": "78079a98abf4766414eb72beb43d5a739ace2695"
+    },
+    "advisories/published/2026/HSEC-2026-0006.md": {
+      "mode": "100644",
+      "sha": "c8a2428586f2d2274ced1c50a290a3897b86370e"
+    },
+    "advisories/published/2026/HSEC-2026-0007.md": {
+      "mode": "100644",
+      "sha": "0979dd69d4d7eafcb1775d716786b8e8b7502aa4"
+    },
+    "advisories/published/2026/HSEC-2026-0008.md": {
+      "mode": "100644",
+      "sha": "5f0d9e7c4e3beb876afe67071b203a2cdb1e4ea3"
+    },
+    "advisories/published/2026/HSEC-2026-0010.md": {
+      "mode": "100644",
+      "sha": "a0271a760cff0e5bf6a8bc0f35bbf4f4cf883545"
+    },
+    "advisories/published/2026/HSEC-2026-0011.md": {
+      "mode": "100644",
+      "sha": "56daa16efaffcc3f52722ec8805b0e1c425cb437"
+    },
+    "advisories/published/2026/HSEC-2026-0012.md": {
+      "mode": "100644",
+      "sha": "9e40f630e6a21bf56c57eed57d53c13ecb2192ea"
+    },
+    "advisories/published/2026/HSEC-2026-0013.md": {
+      "mode": "100644",
+      "sha": "14e49501d5968815e1d9ae0ee6aac1adfc21e969"
+    },
+    "advisories/reserved/.gitkeep": {
+      "mode": "100644",
+      "sha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+    },
+    "advisories/reserved/2024/HSEC-2024-0005.md": {
+      "mode": "100644",
+      "sha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+    },
+    "advisories/reserved/2026/HSEC-2026-0001.md": {
+      "mode": "100644",
+      "sha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+    },
+    "advisories/reserved/2026/HSEC-2026-0003.md": {
+      "mode": "100644",
+      "sha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+    },
+    "advisories/reserved/2026/HSEC-2026-0005.md": {
+      "mode": "100644",
+      "sha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+    },
+    "advisories/reserved/2026/HSEC-2026-0009.md": {
+      "mode": "100644",
+      "sha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+    }
+  },
+  "archive_sha256": "4ac77635eae86e1f901a501a07855244e84170e3952a7f1a5eea7e09d584a8d1",
+  "archive_url": "https://codeload.github.com/haskell/security-advisories/tar.gz/9fa5787e33f5bb3d73f2a0db22b59fd10921d25f",
+  "commit_date": "2026-11-04T12:43:59Z",
+  "commit_tree": "b04febd492b0b89b8150df3b94dee7099bbcefa0",
+  "published_count": 39,
+  "published_sha256": {
+    "advisories/published/2023/HSEC-2023-0001.md": "890c9a520dd0593c56146d1f8224e03647ad6f505c59e7e69e53bedbc0d128d9",
+    "advisories/published/2023/HSEC-2023-0002.md": "dc30f95e454eeb1881e0fa4b3eee19b5fa16c04e7c6c2c382814be682cd593ac",
+    "advisories/published/2023/HSEC-2023-0003.md": "d3c9628acd4788096b41512a5f2ebdfaa496a5db12699aa8d86c0ce1e7b7d931",
+    "advisories/published/2023/HSEC-2023-0004.md": "058ec033c66116ba19dc4b5163b8aab67902806b688ad30905206b2f32178f1c",
+    "advisories/published/2023/HSEC-2023-0005.md": "4d48cb50d0e6d0b0ea2ad627aad8786c45c7f95167af7b9d83dfa05a98daa795",
+    "advisories/published/2023/HSEC-2023-0006.md": "a2afa4d5ec8249db21eecacf1e79ec5830b1ceeae2b6c0bdaff0e21de8e2e5aa",
+    "advisories/published/2023/HSEC-2023-0007.md": "3f35c1a017a1b6b256e505daabd66f8c1f1d0d5d660c501028dbe2ed74b8e803",
+    "advisories/published/2023/HSEC-2023-0008.md": "0194471e89b7d5a7da11a896141c09619986db51537e419c228c5d434b6b019a",
+    "advisories/published/2023/HSEC-2023-0009.md": "763bf4a24f4eaa75a5d954206b2079f3a96150e382ed2a398feafd7052f59d3c",
+    "advisories/published/2023/HSEC-2023-0010.md": "3cfa61e8aa2ffe9b860b8ab5a0132b626fb05d4256b82ff01a1f179e8efb98f2",
+    "advisories/published/2023/HSEC-2023-0011.md": "82209fbc6b5c1c2274e20a41e15cc00850e799a46975bde79818365c16f15c94",
+    "advisories/published/2023/HSEC-2023-0012.md": "0cbea6c2e8eddd08f12413a4fe41484d62a6bc98b77ce811bf5ee115c3f0fed6",
+    "advisories/published/2023/HSEC-2023-0013.md": "1d7eeaa2745af801cb0f1ce9e279463ac27202e1eb7b7d580b4f40efd34a2413",
+    "advisories/published/2023/HSEC-2023-0014.md": "397edc5c992222faadc3e8a1bf0b2350736c1cb6168ce48f2acf495d84c75435",
+    "advisories/published/2023/HSEC-2023-0015.md": "c75a84237c72b14ee3aaba224505d996a45da19b2b5e120dd0fa68f21785f4e4",
+    "advisories/published/2024/HSEC-2024-0001.md": "9a888d30a722519592beb029b7aca9eebacd7a976c018b8a9731e00846efb7c1",
+    "advisories/published/2024/HSEC-2024-0002.md": "8632258b36daf25e35520db09b79b298e66819f6379ca4b671d4953732073ccd",
+    "advisories/published/2024/HSEC-2024-0003.md": "3066abccc8cf42e2c0cd0a4f20231b6ad4342bad6e86eaed3875190b1582fc86",
+    "advisories/published/2024/HSEC-2024-0004.md": "f68453941c7c1579c74c03b157caef869cdec0d9c3fcdc2e05c2aa06ea34c119",
+    "advisories/published/2024/HSEC-2024-0006.md": "cf623d25afb8deb857acfc7559760912f371477ad71d9d7f8f962dfc703716ad",
+    "advisories/published/2024/HSEC-2024-0007.md": "39656edb677a2ac418468f275ff1fc13071c764e94449b1f7cedc64eda15f7dc",
+    "advisories/published/2024/HSEC-2024-0008.md": "25912fea67ece5b053815a59045b8254b56af360d78a32292977192409a4781d",
+    "advisories/published/2024/HSEC-2024-0009.md": "f0d73a160ec4493bc34e7ed2ac800240598ffe9b29591ab07f39f73f44851345",
+    "advisories/published/2025/HSEC-2025-0001.md": "1ac239f58d9cbf01683f7fa980d277f4646ad78878b277a450bc893be3f476f0",
+    "advisories/published/2025/HSEC-2025-0002.md": "14fef62ec78d5a9c9fe3cbd98b7a216e7cbc3237e1628359bcdfd28cad555fd6",
+    "advisories/published/2025/HSEC-2025-0003.md": "4e207381e93aaed11de37f07b8a32d3d0d28b7595b0994e251b9016f5d84f45a",
+    "advisories/published/2025/HSEC-2025-0004.md": "1683502b32449ce12987180afd1adfdc031ba37d80db06adb2bd470882bba539",
+    "advisories/published/2025/HSEC-2025-0005.md": "08d18e9a315beb7d6e1bc7b2ca9b408f42bc3b58f630db829890a5e8273b3420",
+    "advisories/published/2025/HSEC-2025-0006.md": "01be55898d50b4b1f000f2003e7ea9b092aca9f3ffb0914e5685f12533f04ab2",
+    "advisories/published/2025/HSEC-2025-0007.md": "3788be2e148d5ba29057dac822bef08f9de21e97fa9066739c89993172c0d8ae",
+    "advisories/published/2026/HSEC-2026-0002.md": "f1b8e6c2bfe9502d6cc9d667ce986be7529f996aca7fffbee3aeac6795c13c67",
+    "advisories/published/2026/HSEC-2026-0004.md": "367a3bc57155a435ed9e0f01df2fe53a06c8f4c589634d59d4cf0b3aee7f508e",
+    "advisories/published/2026/HSEC-2026-0006.md": "7820b746e08287e4cbed8ce7c721d936adb55defb4bbdec82d6071e71aade26a",
+    "advisories/published/2026/HSEC-2026-0007.md": "b6a86860b63c9a41cec0b7cd3c97c326003b6f4330b08376ef5e643479901b3f",
+    "advisories/published/2026/HSEC-2026-0008.md": "70f853186d46bb878aa585e3bfc55288c9d7db8f4e6c8a22e84f88df789bebe4",
+    "advisories/published/2026/HSEC-2026-0010.md": "5a70574c9defddb71e7959607cc81e75dae881ad4f0b5f3b4b4b0066669882dd",
+    "advisories/published/2026/HSEC-2026-0011.md": "48f3686a5f5070a956f88d95f6246d76b087eda8a42d8f450a54dc359526ef3a",
+    "advisories/published/2026/HSEC-2026-0012.md": "0600393ff0690644bb7fbda6f0a3ba565d3ea264d431a0ea16de64e419ba5644",
+    "advisories/published/2026/HSEC-2026-0013.md": "4ded63e79d677057bdc5a09aecf7037aa15807a21754f1df48ff9cd004782f03"
+  },
+  "revision": "9fa5787e33f5bb3d73f2a0db22b59fd10921d25f",
+  "source": "https://github.com/haskell/security-advisories"
+}

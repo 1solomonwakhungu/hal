@@ -1,0 +1,2651 @@
+{
+  "cabal": {
+    "HUnit:lib": [
+      "base:pre-existing",
+      "call-stack:lib",
+      "deepseq:pre-existing"
+    ],
+    "OneTuple:lib": [
+      "base:pre-existing",
+      "ghc-prim:pre-existing",
+      "template-haskell:pre-existing"
+    ],
+    "QuickCheck:lib": [
+      "base:pre-existing",
+      "containers:pre-existing",
+      "deepseq:pre-existing",
+      "random:lib",
+      "splitmix:lib",
+      "template-haskell:pre-existing",
+      "transformers:pre-existing"
+    ],
+    "StateVar:lib": [
+      "base:pre-existing",
+      "stm:pre-existing",
+      "transformers:pre-existing"
+    ],
+    "aeson:lib": [
+      "OneTuple:lib",
+      "QuickCheck:lib",
+      "base:pre-existing",
+      "bytestring:pre-existing",
+      "character-ps:lib",
+      "containers:pre-existing",
+      "data-fix:lib",
+      "deepseq:pre-existing",
+      "dlist:lib",
+      "exceptions:pre-existing",
+      "hashable:lib",
+      "indexed-traversable:lib",
+      "integer-conversion:lib",
+      "integer-logarithms:lib",
+      "network-uri:lib",
+      "primitive:lib",
+      "scientific:lib",
+      "semialign:lib",
+      "strict:lib",
+      "tagged:lib",
+      "template-haskell:pre-existing",
+      "text-iso8601:lib",
+      "text-short:lib",
+      "text:pre-existing",
+      "th-abstraction:lib",
+      "these:lib",
+      "time-compat:lib",
+      "time:pre-existing",
+      "unordered-containers:lib",
+      "uuid-types:lib",
+      "vector:lib",
+      "witherable:lib"
+    ],
+    "ansi-terminal-types:lib": [
+      "base:pre-existing",
+      "colour:lib"
+    ],
+    "ansi-terminal:lib": [
+      "ansi-terminal-types:lib",
+      "base:pre-existing",
+      "colour:lib"
+    ],
+    "appar:components:lib": [
+      "base:pre-existing",
+      "bytestring:pre-existing"
+    ],
+    "array:pre-existing": [
+      "base:pre-existing"
+    ],
+    "assoc:lib": [
+      "base:pre-existing"
+    ],
+    "async:lib": [
+      "base:pre-existing",
+      "hashable:lib",
+      "stm:pre-existing",
+      "unordered-containers:lib"
+    ],
+    "attoparsec-aeson:lib": [
+      "aeson:lib",
+      "attoparsec:lib",
+      "base:pre-existing",
+      "bytestring:pre-existing",
+      "character-ps:lib",
+      "integer-conversion:lib",
+      "primitive:lib",
+      "scientific:lib",
+      "text:pre-existing",
+      "vector:lib"
+    ],
+    "attoparsec:lib": [
+      "array:pre-existing",
+      "attoparsec:lib:attoparsec-internal",
+      "base:pre-existing",
+      "bytestring:pre-existing",
+      "containers:pre-existing",
+      "deepseq:pre-existing",
+      "ghc-prim:pre-existing",
+      "scientific:lib",
+      "text:pre-existing",
+      "transformers:pre-existing"
+    ],
+    "attoparsec:lib:attoparsec-internal": [
+      "array:pre-existing",
+      "base:pre-existing",
+      "bytestring:pre-existing",
+      "text:pre-existing"
+    ],
+    "barbies:lib": [
+      "base:pre-existing",
+      "distributive:lib",
+      "transformers:pre-existing"
+    ],
+    "base-orphans:lib": [
+      "base:pre-existing"
+    ],
+    "base64-bytestring:lib": [
+      "base:pre-existing",
+      "bytestring:pre-existing"
+    ],
+    "base:pre-existing": [
+      "ghc-internal:pre-existing",
+      "ghc-prim:pre-existing"
+    ],
+    "bifunctors:lib": [
+      "assoc:lib",
+      "base:pre-existing",
+      "comonad:lib",
+      "containers:pre-existing",
+      "tagged:lib",
+      "template-haskell:pre-existing",
+      "th-abstraction:lib"
+    ],
+    "binary:pre-existing": [
+      "array:pre-existing",
+      "base:pre-existing",
+      "bytestring:pre-existing",
+      "containers:pre-existing"
+    ],
+    "bitvec:lib": [
+      "base:pre-existing",
+      "bytestring:pre-existing",
+      "deepseq:pre-existing",
+      "ghc-bignum:pre-existing",
+      "primitive:lib",
+      "vector:lib"
+    ],
+    "blaze-builder:lib": [
+      "base:pre-existing",
+      "bytestring:pre-existing",
+      "text:pre-existing"
+    ],
+    "boring:lib": [
+      "base:pre-existing",
+      "tagged:lib"
+    ],
+    "bytestring:pre-existing": [
+      "base:pre-existing",
+      "deepseq:pre-existing",
+      "ghc-prim:pre-existing",
+      "template-haskell:pre-existing"
+    ],
+    "call-stack:lib": [
+      "base:pre-existing"
+    ],
+    "case-insensitive:lib": [
+      "base:pre-existing",
+      "bytestring:pre-existing",
+      "deepseq:pre-existing",
+      "hashable:lib",
+      "template-haskell:pre-existing",
+      "text:pre-existing"
+    ],
+    "character-ps:lib": [
+      "base:pre-existing"
+    ],
+    "colour:lib": [
+      "base:pre-existing"
+    ],
+    "comonad:lib": [
+      "base:pre-existing",
+      "containers:pre-existing",
+      "distributive:lib",
+      "indexed-traversable:lib",
+      "tagged:lib",
+      "transformers:pre-existing"
+    ],
+    "concurrent-output:lib": [
+      "ansi-terminal:lib",
+      "async:lib",
+      "base:pre-existing",
+      "directory:pre-existing",
+      "exceptions:pre-existing",
+      "process:pre-existing",
+      "stm:pre-existing",
+      "terminal-size:lib",
+      "text:pre-existing",
+      "transformers:pre-existing",
+      "unix:pre-existing"
+    ],
+    "conduit-extra:lib": [
+      "async:lib",
+      "attoparsec:lib",
+      "base:pre-existing",
+      "bytestring:pre-existing",
+      "conduit:lib",
+      "directory:pre-existing",
+      "filepath:pre-existing",
+      "network:components:lib",
+      "primitive:lib",
+      "process:pre-existing",
+      "resourcet:lib",
+      "stm:pre-existing",
+      "streaming-commons:lib",
+      "text:pre-existing",
+      "transformers:pre-existing",
+      "typed-process:lib",
+      "unliftio-core:lib"
+    ],
+    "conduit:lib": [
+      "base:pre-existing",
+      "bytestring:pre-existing",
+      "directory:pre-existing",
+      "exceptions:pre-existing",
+      "filepath:pre-existing",
+      "mono-traversable:lib",
+      "mtl:pre-existing",
+      "primitive:lib",
+      "resourcet:lib",
+      "text:pre-existing",
+      "transformers:pre-existing",
+      "unix:pre-existing",
+      "unliftio-core:lib",
+      "vector:lib"
+    ],
+    "constraints:lib": [
+      "base:pre-existing",
+      "binary:pre-existing",
+      "boring:lib",
+      "deepseq:pre-existing",
+      "hashable:lib",
+      "mtl:pre-existing",
+      "transformers:pre-existing"
+    ],
+    "containers:pre-existing": [
+      "array:pre-existing",
+      "base:pre-existing",
+      "deepseq:pre-existing",
+      "template-haskell:pre-existing"
+    ],
+    "contravariant:lib": [
+      "StateVar:lib",
+      "base:pre-existing",
+      "transformers:pre-existing"
+    ],
+    "cookie:lib": [
+      "base:pre-existing",
+      "bytestring:pre-existing",
+      "data-default-class:lib",
+      "deepseq:pre-existing",
+      "text:pre-existing",
+      "time:pre-existing"
+    ],
+    "data-default-class:lib": [
+      "data-default:lib"
+    ],
+    "data-default:lib": [
+      "base:pre-existing",
+      "containers:pre-existing"
+    ],
+    "data-fix:lib": [
+      "base:pre-existing",
+      "deepseq:pre-existing",
+      "hashable:lib"
+    ],
+    "deepseq:pre-existing": [
+      "array:pre-existing",
+      "base:pre-existing",
+      "ghc-prim:pre-existing"
+    ],
+    "directory:pre-existing": [
+      "base:pre-existing",
+      "filepath:pre-existing",
+      "os-string:pre-existing",
+      "time:pre-existing",
+      "unix:pre-existing"
+    ],
+    "distributive:lib": [
+      "base:pre-existing",
+      "tagged:lib",
+      "transformers:pre-existing"
+    ],
+    "dlist:lib": [
+      "base:pre-existing",
+      "deepseq:pre-existing"
+    ],
+    "erf:components:lib": [
+      "base:pre-existing"
+    ],
+    "exceptions:pre-existing": [
+      "base:pre-existing",
+      "mtl:pre-existing",
+      "stm:pre-existing",
+      "template-haskell:pre-existing",
+      "transformers:pre-existing"
+    ],
+    "filepath:pre-existing": [
+      "base:pre-existing",
+      "bytestring:pre-existing",
+      "deepseq:pre-existing",
+      "exceptions:pre-existing",
+      "os-string:pre-existing",
+      "template-haskell:pre-existing"
+    ],
+    "ghc-bignum:pre-existing": [
+      "ghc-prim:pre-existing"
+    ],
+    "ghc-boot-th:pre-existing": [
+      "base:pre-existing"
+    ],
+    "ghc-internal:pre-existing": [
+      "ghc-bignum:pre-existing",
+      "ghc-prim:pre-existing",
+      "rts:pre-existing"
+    ],
+    "ghc-prim:pre-existing": [
+      "rts:pre-existing"
+    ],
+    "hal:lib": [
+      "aeson:lib",
+      "attoparsec-aeson:lib",
+      "base64-bytestring:lib",
+      "base:pre-existing",
+      "bytestring:pre-existing",
+      "case-insensitive:lib",
+      "conduit-extra:lib",
+      "conduit:lib",
+      "containers:pre-existing",
+      "exceptions:pre-existing",
+      "hashable:lib",
+      "http-client:lib",
+      "http-types:lib",
+      "mtl:pre-existing",
+      "scientific:lib",
+      "text:pre-existing",
+      "time:pre-existing",
+      "unordered-containers:lib"
+    ],
+    "hal:test:hal-test": [
+      "aeson:lib",
+      "base64-bytestring:lib",
+      "base:pre-existing",
+      "bytestring:pre-existing",
+      "case-insensitive:lib",
+      "containers:pre-existing",
+      "hal:lib",
+      "hedgehog:lib",
+      "hspec-hedgehog:lib",
+      "hspec:lib",
+      "http-client:lib",
+      "http-types:lib",
+      "network:components:lib",
+      "raw-strings-qq:lib",
+      "scientific:lib",
+      "text:pre-existing",
+      "time:pre-existing",
+      "transformers:pre-existing",
+      "unordered-containers:lib",
+      "vector:lib"
+    ],
+    "happy-lib:lib": [
+      "array:pre-existing",
+      "base:pre-existing",
+      "containers:pre-existing",
+      "happy-lib:lib:backend-glr",
+      "happy-lib:lib:backend-lalr",
+      "happy-lib:lib:frontend",
+      "happy-lib:lib:grammar",
+      "happy-lib:lib:tabular",
+      "mtl:pre-existing",
+      "transformers:pre-existing"
+    ],
+    "happy-lib:lib:backend-glr": [
+      "array:pre-existing",
+      "base:pre-existing",
+      "happy-lib:lib:grammar",
+      "happy-lib:lib:tabular"
+    ],
+    "happy-lib:lib:backend-lalr": [
+      "array:pre-existing",
+      "base:pre-existing",
+      "happy-lib:lib:grammar",
+      "happy-lib:lib:tabular"
+    ],
+    "happy-lib:lib:frontend": [
+      "array:pre-existing",
+      "base:pre-existing",
+      "containers:pre-existing",
+      "happy-lib:lib:grammar",
+      "mtl:pre-existing",
+      "transformers:pre-existing"
+    ],
+    "happy-lib:lib:grammar": [
+      "array:pre-existing",
+      "base:pre-existing"
+    ],
+    "happy-lib:lib:tabular": [
+      "array:pre-existing",
+      "base:pre-existing",
+      "containers:pre-existing",
+      "happy-lib:lib:grammar"
+    ],
+    "happy:exe:happy": [
+      "base:pre-existing",
+      "happy-lib:lib"
+    ],
+    "hashable:lib": [
+      "base:pre-existing",
+      "bytestring:pre-existing",
+      "containers:pre-existing",
+      "deepseq:pre-existing",
+      "filepath:pre-existing",
+      "os-string:pre-existing",
+      "text:pre-existing"
+    ],
+    "haskell-lexer:lib": [
+      "base:pre-existing"
+    ],
+    "hedgehog:lib": [
+      "ansi-terminal:lib",
+      "async:lib",
+      "barbies:lib",
+      "base:pre-existing",
+      "bytestring:pre-existing",
+      "concurrent-output:lib",
+      "containers:pre-existing",
+      "deepseq:pre-existing",
+      "directory:pre-existing",
+      "erf:components:lib",
+      "exceptions:pre-existing",
+      "lifted-async:lib",
+      "mmorph:lib",
+      "monad-control:lib",
+      "mtl:pre-existing",
+      "pretty-show:lib",
+      "primitive:lib",
+      "random:lib",
+      "resourcet:lib",
+      "safe-exceptions:lib",
+      "stm:pre-existing",
+      "template-haskell:pre-existing",
+      "text:pre-existing",
+      "time:pre-existing",
+      "transformers-base:lib",
+      "transformers:pre-existing",
+      "wl-pprint-annotated:lib"
+    ],
+    "hsc2hs:exe:hsc2hs": [
+      "base:pre-existing",
+      "containers:pre-existing",
+      "directory:pre-existing",
+      "filepath:pre-existing",
+      "process:pre-existing"
+    ],
+    "hspec-core:lib": [
+      "HUnit:lib",
+      "QuickCheck:lib",
+      "ansi-terminal:lib",
+      "array:pre-existing",
+      "base:pre-existing",
+      "call-stack:lib",
+      "containers:pre-existing",
+      "deepseq:pre-existing",
+      "directory:pre-existing",
+      "filepath:pre-existing",
+      "haskell-lexer:lib",
+      "hspec-expectations:lib",
+      "process:pre-existing",
+      "quickcheck-io:lib",
+      "random:lib",
+      "stm:pre-existing",
+      "time:pre-existing",
+      "transformers:pre-existing"
+    ],
+    "hspec-discover:exe:hspec-discover": [
+      "base:pre-existing",
+      "directory:pre-existing",
+      "filepath:pre-existing",
+      "hspec-discover:lib"
+    ],
+    "hspec-discover:lib": [
+      "base:pre-existing",
+      "directory:pre-existing",
+      "filepath:pre-existing"
+    ],
+    "hspec-expectations:lib": [
+      "HUnit:lib",
+      "base:pre-existing",
+      "call-stack:lib"
+    ],
+    "hspec-hedgehog:lib": [
+      "QuickCheck:lib",
+      "base:pre-existing",
+      "hedgehog:lib",
+      "hspec-core:lib",
+      "hspec:lib",
+      "splitmix:lib"
+    ],
+    "hspec:lib": [
+      "QuickCheck:lib",
+      "base:pre-existing",
+      "hspec-core:lib",
+      "hspec-discover:lib",
+      "hspec-expectations:lib"
+    ],
+    "http-client:lib": [
+      "array:pre-existing",
+      "async:lib",
+      "base64-bytestring:lib",
+      "base:pre-existing",
+      "blaze-builder:lib",
+      "bytestring:pre-existing",
+      "case-insensitive:lib",
+      "containers:pre-existing",
+      "cookie:lib",
+      "deepseq:pre-existing",
+      "exceptions:pre-existing",
+      "filepath:pre-existing",
+      "ghc-prim:pre-existing",
+      "http-types:lib",
+      "iproute:lib",
+      "mime-types:lib",
+      "network-uri:lib",
+      "network:components:lib",
+      "random:lib",
+      "stm:pre-existing",
+      "streaming-commons:lib",
+      "text:pre-existing",
+      "time:pre-existing",
+      "transformers:pre-existing"
+    ],
+    "http-types:lib": [
+      "base:pre-existing",
+      "bytestring:pre-existing",
+      "case-insensitive:lib",
+      "text:pre-existing"
+    ],
+    "indexed-traversable-instances:lib": [
+      "OneTuple:lib",
+      "base:pre-existing",
+      "indexed-traversable:lib",
+      "tagged:lib",
+      "unordered-containers:lib",
+      "vector:lib"
+    ],
+    "indexed-traversable:lib": [
+      "array:pre-existing",
+      "base:pre-existing",
+      "containers:pre-existing",
+      "transformers:pre-existing"
+    ],
+    "integer-conversion:lib": [
+      "base:pre-existing",
+      "bytestring:pre-existing",
+      "primitive:lib",
+      "text:pre-existing"
+    ],
+    "integer-logarithms:lib": [
+      "array:pre-existing",
+      "base:pre-existing"
+    ],
+    "iproute:lib": [
+      "appar:components:lib",
+      "base:pre-existing",
+      "bytestring:pre-existing",
+      "network:components:lib"
+    ],
+    "lifted-async:lib": [
+      "async:lib",
+      "base:pre-existing",
+      "constraints:lib",
+      "lifted-base:lib",
+      "monad-control:lib",
+      "transformers-base:lib"
+    ],
+    "lifted-base:lib": [
+      "base:pre-existing",
+      "monad-control:lib",
+      "transformers-base:lib"
+    ],
+    "mime-types:lib": [
+      "base:pre-existing",
+      "bytestring:pre-existing",
+      "containers:pre-existing",
+      "text:pre-existing"
+    ],
+    "mmorph:lib": [
+      "base:pre-existing",
+      "mtl:pre-existing",
+      "transformers-compat:lib",
+      "transformers:pre-existing"
+    ],
+    "monad-control:lib": [
+      "base:pre-existing",
+      "stm:pre-existing",
+      "transformers-base:lib",
+      "transformers-compat:lib",
+      "transformers:pre-existing"
+    ],
+    "mono-traversable:lib": [
+      "base:pre-existing",
+      "bytestring:pre-existing",
+      "containers:pre-existing",
+      "hashable:lib",
+      "split:lib",
+      "text:pre-existing",
+      "transformers:pre-existing",
+      "unordered-containers:lib",
+      "vector-algorithms:lib",
+      "vector:lib"
+    ],
+    "mtl:pre-existing": [
+      "base:pre-existing",
+      "transformers:pre-existing"
+    ],
+    "network-uri:lib": [
+      "base:pre-existing",
+      "deepseq:pre-existing",
+      "parsec:pre-existing",
+      "template-haskell:pre-existing",
+      "th-compat:lib"
+    ],
+    "network:components:lib": [
+      "base:pre-existing",
+      "bytestring:pre-existing",
+      "deepseq:pre-existing",
+      "directory:pre-existing",
+      "hsc2hs:exe:hsc2hs",
+      "stm:pre-existing"
+    ],
+    "optparse-applicative:lib": [
+      "base:pre-existing",
+      "prettyprinter-ansi-terminal:lib",
+      "prettyprinter:lib",
+      "process:pre-existing",
+      "text:pre-existing",
+      "transformers:pre-existing"
+    ],
+    "os-string:pre-existing": [
+      "base:pre-existing",
+      "bytestring:pre-existing",
+      "deepseq:pre-existing",
+      "exceptions:pre-existing",
+      "template-haskell:pre-existing"
+    ],
+    "parsec:pre-existing": [
+      "base:pre-existing",
+      "bytestring:pre-existing",
+      "mtl:pre-existing",
+      "text:pre-existing"
+    ],
+    "pretty-show:exe:ppsh": [
+      "base:pre-existing",
+      "pretty-show:lib"
+    ],
+    "pretty-show:lib": [
+      "array:pre-existing",
+      "base:pre-existing",
+      "filepath:pre-existing",
+      "ghc-prim:pre-existing",
+      "happy:exe:happy",
+      "haskell-lexer:lib",
+      "pretty:pre-existing",
+      "text:pre-existing"
+    ],
+    "pretty:pre-existing": [
+      "base:pre-existing",
+      "deepseq:pre-existing",
+      "ghc-prim:pre-existing"
+    ],
+    "prettyprinter-ansi-terminal:lib": [
+      "ansi-terminal:lib",
+      "base:pre-existing",
+      "prettyprinter:lib",
+      "text:pre-existing"
+    ],
+    "prettyprinter:lib": [
+      "base:pre-existing",
+      "text:pre-existing"
+    ],
+    "primitive:lib": [
+      "base:pre-existing",
+      "deepseq:pre-existing",
+      "template-haskell:pre-existing",
+      "transformers:pre-existing"
+    ],
+    "process:pre-existing": [
+      "base:pre-existing",
+      "deepseq:pre-existing",
+      "directory:pre-existing",
+      "filepath:pre-existing",
+      "os-string:pre-existing",
+      "unix:pre-existing"
+    ],
+    "quickcheck-io:lib": [
+      "HUnit:lib",
+      "QuickCheck:lib",
+      "base:pre-existing"
+    ],
+    "random:lib": [
+      "base:pre-existing",
+      "bytestring:pre-existing",
+      "deepseq:pre-existing",
+      "mtl:pre-existing",
+      "splitmix:lib",
+      "transformers:pre-existing"
+    ],
+    "raw-strings-qq:lib": [
+      "base:pre-existing",
+      "template-haskell:pre-existing"
+    ],
+    "resourcet:lib": [
+      "base:pre-existing",
+      "containers:pre-existing",
+      "exceptions:pre-existing",
+      "mtl:pre-existing",
+      "primitive:lib",
+      "transformers:pre-existing",
+      "unliftio-core:lib"
+    ],
+    "rts:pre-existing": [],
+    "safe-exceptions:lib": [
+      "base:pre-existing",
+      "deepseq:pre-existing",
+      "exceptions:pre-existing",
+      "transformers:pre-existing"
+    ],
+    "scientific:lib": [
+      "base:pre-existing",
+      "binary:pre-existing",
+      "bytestring:pre-existing",
+      "containers:pre-existing",
+      "deepseq:pre-existing",
+      "hashable:lib",
+      "integer-logarithms:lib",
+      "primitive:lib",
+      "template-haskell:pre-existing",
+      "text:pre-existing"
+    ],
+    "semialign:lib": [
+      "base:pre-existing",
+      "containers:pre-existing",
+      "hashable:lib",
+      "indexed-traversable-instances:lib",
+      "indexed-traversable:lib",
+      "semigroupoids:lib",
+      "tagged:lib",
+      "these:lib",
+      "unordered-containers:lib",
+      "vector:lib"
+    ],
+    "semigroupoids:lib": [
+      "base-orphans:lib",
+      "base:pre-existing",
+      "bifunctors:lib",
+      "comonad:lib",
+      "containers:pre-existing",
+      "contravariant:lib",
+      "hashable:lib",
+      "tagged:lib",
+      "template-haskell:pre-existing",
+      "transformers-compat:lib",
+      "transformers:pre-existing",
+      "unordered-containers:lib"
+    ],
+    "split:lib": [
+      "base:pre-existing"
+    ],
+    "splitmix:lib": [
+      "base:pre-existing",
+      "deepseq:pre-existing"
+    ],
+    "stm:pre-existing": [
+      "array:pre-existing",
+      "base:pre-existing"
+    ],
+    "streaming-commons:lib": [
+      "array:pre-existing",
+      "async:lib",
+      "base:pre-existing",
+      "bytestring:pre-existing",
+      "directory:pre-existing",
+      "network:components:lib",
+      "process:pre-existing",
+      "random:lib",
+      "stm:pre-existing",
+      "text:pre-existing",
+      "transformers:pre-existing",
+      "unix:pre-existing",
+      "zlib:lib"
+    ],
+    "strict:lib": [
+      "assoc:lib",
+      "base:pre-existing",
+      "binary:pre-existing",
+      "bytestring:pre-existing",
+      "deepseq:pre-existing",
+      "ghc-prim:pre-existing",
+      "hashable:lib",
+      "text:pre-existing",
+      "these:lib",
+      "transformers:pre-existing"
+    ],
+    "tagged:lib": [
+      "base:pre-existing",
+      "deepseq:pre-existing",
+      "template-haskell:pre-existing"
+    ],
+    "tasty:lib": [
+      "ansi-terminal:lib",
+      "base:pre-existing",
+      "containers:pre-existing",
+      "optparse-applicative:lib",
+      "stm:pre-existing",
+      "tagged:lib",
+      "terminal-size:lib",
+      "transformers:pre-existing",
+      "unix:pre-existing"
+    ],
+    "template-haskell:pre-existing": [
+      "base:pre-existing",
+      "ghc-boot-th:pre-existing",
+      "ghc-prim:pre-existing",
+      "pretty:pre-existing"
+    ],
+    "terminal-size:lib": [
+      "base:pre-existing",
+      "hsc2hs:exe:hsc2hs"
+    ],
+    "text-iso8601:lib": [
+      "base:pre-existing",
+      "integer-conversion:lib",
+      "text:pre-existing",
+      "time-compat:lib",
+      "time:pre-existing"
+    ],
+    "text-short:lib": [
+      "base:pre-existing",
+      "binary:pre-existing",
+      "bytestring:pre-existing",
+      "deepseq:pre-existing",
+      "ghc-prim:pre-existing",
+      "hashable:lib",
+      "template-haskell:pre-existing",
+      "text:pre-existing"
+    ],
+    "text:pre-existing": [
+      "array:pre-existing",
+      "base:pre-existing",
+      "binary:pre-existing",
+      "bytestring:pre-existing",
+      "deepseq:pre-existing",
+      "ghc-prim:pre-existing",
+      "template-haskell:pre-existing"
+    ],
+    "th-abstraction:lib": [
+      "base:pre-existing",
+      "containers:pre-existing",
+      "template-haskell:pre-existing"
+    ],
+    "th-compat:lib": [
+      "base:pre-existing",
+      "template-haskell:pre-existing"
+    ],
+    "these:lib": [
+      "assoc:lib",
+      "base:pre-existing",
+      "binary:pre-existing",
+      "deepseq:pre-existing",
+      "hashable:lib"
+    ],
+    "time-compat:lib": [
+      "base-orphans:lib",
+      "base:pre-existing",
+      "deepseq:pre-existing",
+      "hashable:lib",
+      "template-haskell:pre-existing",
+      "time:pre-existing"
+    ],
+    "time:pre-existing": [
+      "base:pre-existing",
+      "deepseq:pre-existing"
+    ],
+    "transformers-base:lib": [
+      "base-orphans:lib",
+      "base:pre-existing",
+      "stm:pre-existing",
+      "transformers-compat:lib",
+      "transformers:pre-existing"
+    ],
+    "transformers-compat:lib": [
+      "base:pre-existing",
+      "ghc-prim:pre-existing",
+      "transformers:pre-existing"
+    ],
+    "transformers:pre-existing": [
+      "base:pre-existing"
+    ],
+    "typed-process:lib": [
+      "async:lib",
+      "base:pre-existing",
+      "bytestring:pre-existing",
+      "process:pre-existing",
+      "stm:pre-existing",
+      "text:pre-existing",
+      "transformers:pre-existing",
+      "unliftio-core:lib"
+    ],
+    "unix:pre-existing": [
+      "base:pre-existing",
+      "bytestring:pre-existing",
+      "filepath:pre-existing",
+      "os-string:pre-existing",
+      "time:pre-existing"
+    ],
+    "unliftio-core:lib": [
+      "base:pre-existing",
+      "transformers:pre-existing"
+    ],
+    "unordered-containers:lib": [
+      "base:pre-existing",
+      "deepseq:pre-existing",
+      "hashable:lib",
+      "template-haskell:pre-existing"
+    ],
+    "uuid-types:lib": [
+      "base:pre-existing",
+      "binary:pre-existing",
+      "bytestring:pre-existing",
+      "deepseq:pre-existing",
+      "hashable:lib",
+      "random:lib",
+      "template-haskell:pre-existing",
+      "text:pre-existing"
+    ],
+    "vector-algorithms:lib": [
+      "base:pre-existing",
+      "bitvec:lib",
+      "bytestring:pre-existing",
+      "primitive:lib",
+      "vector:lib"
+    ],
+    "vector-stream:lib": [
+      "base:pre-existing",
+      "ghc-prim:pre-existing"
+    ],
+    "vector:lib": [
+      "base:pre-existing",
+      "deepseq:pre-existing",
+      "primitive:lib",
+      "vector-stream:lib"
+    ],
+    "vector:lib:benchmarks-O2": [
+      "base:pre-existing",
+      "random:lib",
+      "tasty:lib",
+      "vector:lib"
+    ],
+    "witherable:lib": [
+      "base-orphans:lib",
+      "base:pre-existing",
+      "containers:pre-existing",
+      "hashable:lib",
+      "indexed-traversable-instances:lib",
+      "indexed-traversable:lib",
+      "transformers:pre-existing",
+      "unordered-containers:lib",
+      "vector:lib"
+    ],
+    "wl-pprint-annotated:lib": [
+      "base:pre-existing",
+      "containers:pre-existing",
+      "deepseq:pre-existing",
+      "text:pre-existing"
+    ],
+    "zlib:lib": [
+      "base:pre-existing",
+      "bytestring:pre-existing",
+      "hsc2hs:exe:hsc2hs"
+    ]
+  },
+  "stack-examples": {
+    "OneTuple": [
+      "base",
+      "ghc-prim",
+      "template-haskell"
+    ],
+    "QuickCheck": [
+      "base",
+      "containers",
+      "deepseq",
+      "random",
+      "splitmix",
+      "template-haskell",
+      "transformers"
+    ],
+    "StateVar": [
+      "base",
+      "stm",
+      "transformers"
+    ],
+    "aeson": [
+      "OneTuple",
+      "QuickCheck",
+      "base",
+      "bytestring",
+      "character-ps",
+      "containers",
+      "data-fix",
+      "deepseq",
+      "dlist",
+      "exceptions",
+      "hashable",
+      "indexed-traversable",
+      "integer-conversion",
+      "integer-logarithms",
+      "network-uri",
+      "primitive",
+      "scientific",
+      "semialign",
+      "strict",
+      "tagged",
+      "template-haskell",
+      "text",
+      "text-iso8601",
+      "text-short",
+      "th-abstraction",
+      "these",
+      "time",
+      "time-compat",
+      "unordered-containers",
+      "uuid-types",
+      "vector",
+      "witherable"
+    ],
+    "ansi-terminal": [
+      "ansi-terminal-types",
+      "base",
+      "colour"
+    ],
+    "ansi-terminal-types": [
+      "base",
+      "colour"
+    ],
+    "appar": [
+      "base",
+      "bytestring"
+    ],
+    "array": [
+      "base"
+    ],
+    "assoc": [
+      "base"
+    ],
+    "async": [
+      "base",
+      "hashable",
+      "stm",
+      "unordered-containers"
+    ],
+    "attoparsec": [
+      "array",
+      "base",
+      "bytestring",
+      "containers",
+      "deepseq",
+      "ghc-prim",
+      "scientific",
+      "text",
+      "transformers"
+    ],
+    "attoparsec-aeson": [
+      "aeson",
+      "attoparsec",
+      "base",
+      "bytestring",
+      "character-ps",
+      "integer-conversion",
+      "primitive",
+      "scientific",
+      "text",
+      "vector"
+    ],
+    "base": [
+      "ghc-internal",
+      "ghc-prim"
+    ],
+    "base-orphans": [
+      "base"
+    ],
+    "base64-bytestring": [
+      "base",
+      "bytestring"
+    ],
+    "bifunctors": [
+      "assoc",
+      "base",
+      "comonad",
+      "containers",
+      "tagged",
+      "template-haskell",
+      "th-abstraction"
+    ],
+    "binary": [
+      "array",
+      "base",
+      "bytestring",
+      "containers"
+    ],
+    "bitvec": [
+      "base",
+      "bytestring",
+      "deepseq",
+      "ghc-bignum",
+      "primitive",
+      "vector"
+    ],
+    "blaze-builder": [
+      "base",
+      "bytestring",
+      "text"
+    ],
+    "byteorder": [
+      "base"
+    ],
+    "bytestring": [
+      "base",
+      "deepseq",
+      "ghc-prim",
+      "template-haskell"
+    ],
+    "case-insensitive": [
+      "base",
+      "bytestring",
+      "deepseq",
+      "hashable",
+      "text"
+    ],
+    "character-ps": [
+      "base"
+    ],
+    "colour": [
+      "base"
+    ],
+    "comonad": [
+      "base",
+      "containers",
+      "distributive",
+      "indexed-traversable",
+      "tagged",
+      "transformers"
+    ],
+    "conduit": [
+      "base",
+      "bytestring",
+      "directory",
+      "exceptions",
+      "filepath",
+      "mono-traversable",
+      "mtl",
+      "primitive",
+      "resourcet",
+      "text",
+      "transformers",
+      "unix",
+      "unliftio-core",
+      "vector"
+    ],
+    "conduit-extra": [
+      "async",
+      "attoparsec",
+      "base",
+      "bytestring",
+      "conduit",
+      "directory",
+      "filepath",
+      "network",
+      "primitive",
+      "process",
+      "resourcet",
+      "stm",
+      "streaming-commons",
+      "text",
+      "transformers",
+      "typed-process",
+      "unliftio-core"
+    ],
+    "containers": [
+      "array",
+      "base",
+      "deepseq",
+      "template-haskell"
+    ],
+    "contravariant": [
+      "StateVar",
+      "base",
+      "transformers"
+    ],
+    "cookie": [
+      "base",
+      "bytestring",
+      "data-default-class",
+      "deepseq",
+      "text",
+      "time"
+    ],
+    "data-default": [
+      "base",
+      "containers"
+    ],
+    "data-default-class": [
+      "data-default"
+    ],
+    "data-fix": [
+      "base",
+      "deepseq",
+      "hashable"
+    ],
+    "deepseq": [
+      "array",
+      "base",
+      "ghc-prim"
+    ],
+    "directory": [
+      "base",
+      "filepath",
+      "os-string",
+      "time",
+      "unix"
+    ],
+    "distributive": [
+      "base",
+      "tagged",
+      "transformers"
+    ],
+    "dlist": [
+      "base",
+      "deepseq"
+    ],
+    "examples": [
+      "aeson",
+      "base",
+      "hal",
+      "mtl",
+      "text",
+      "unordered-containers"
+    ],
+    "exceptions": [
+      "base",
+      "mtl",
+      "stm",
+      "template-haskell",
+      "transformers"
+    ],
+    "filepath": [
+      "base",
+      "bytestring",
+      "deepseq",
+      "exceptions",
+      "os-string",
+      "template-haskell"
+    ],
+    "ghc-bignum": [
+      "ghc-prim"
+    ],
+    "ghc-boot-th": [
+      "base"
+    ],
+    "ghc-internal": [
+      "ghc-bignum",
+      "ghc-prim",
+      "rts"
+    ],
+    "ghc-prim": [
+      "rts"
+    ],
+    "hal": [
+      "aeson",
+      "attoparsec-aeson",
+      "base",
+      "base64-bytestring",
+      "bytestring",
+      "case-insensitive",
+      "conduit",
+      "conduit-extra",
+      "containers",
+      "exceptions",
+      "hashable",
+      "http-client",
+      "http-types",
+      "mtl",
+      "scientific",
+      "text",
+      "time",
+      "unordered-containers"
+    ],
+    "hashable": [
+      "base",
+      "bytestring",
+      "containers",
+      "deepseq",
+      "filepath",
+      "os-string",
+      "text"
+    ],
+    "http-client": [
+      "array",
+      "async",
+      "base",
+      "base64-bytestring",
+      "blaze-builder",
+      "bytestring",
+      "case-insensitive",
+      "containers",
+      "cookie",
+      "deepseq",
+      "exceptions",
+      "filepath",
+      "ghc-prim",
+      "http-types",
+      "iproute",
+      "mime-types",
+      "network",
+      "network-uri",
+      "random",
+      "stm",
+      "streaming-commons",
+      "text",
+      "time",
+      "transformers"
+    ],
+    "http-types": [
+      "base",
+      "bytestring",
+      "case-insensitive",
+      "text"
+    ],
+    "indexed-traversable": [
+      "array",
+      "base",
+      "containers",
+      "transformers"
+    ],
+    "indexed-traversable-instances": [
+      "OneTuple",
+      "base",
+      "indexed-traversable",
+      "tagged",
+      "unordered-containers",
+      "vector"
+    ],
+    "integer-conversion": [
+      "base",
+      "bytestring",
+      "primitive",
+      "text"
+    ],
+    "integer-logarithms": [
+      "array",
+      "base"
+    ],
+    "iproute": [
+      "appar",
+      "base",
+      "byteorder",
+      "bytestring",
+      "containers",
+      "network"
+    ],
+    "mime-types": [
+      "base",
+      "bytestring",
+      "containers",
+      "text"
+    ],
+    "mono-traversable": [
+      "base",
+      "bytestring",
+      "containers",
+      "hashable",
+      "split",
+      "text",
+      "transformers",
+      "unordered-containers",
+      "vector",
+      "vector-algorithms"
+    ],
+    "mtl": [
+      "base",
+      "transformers"
+    ],
+    "network": [
+      "base",
+      "bytestring",
+      "deepseq",
+      "directory",
+      "stm"
+    ],
+    "network-uri": [
+      "base",
+      "deepseq",
+      "parsec",
+      "template-haskell",
+      "th-compat"
+    ],
+    "optparse-applicative": [
+      "base",
+      "prettyprinter",
+      "prettyprinter-ansi-terminal",
+      "process",
+      "text",
+      "transformers",
+      "transformers-compat"
+    ],
+    "os-string": [
+      "base",
+      "bytestring",
+      "deepseq",
+      "exceptions",
+      "template-haskell"
+    ],
+    "parsec": [
+      "base",
+      "bytestring",
+      "mtl",
+      "text"
+    ],
+    "pretty": [
+      "base",
+      "deepseq",
+      "ghc-prim"
+    ],
+    "prettyprinter": [
+      "base",
+      "text"
+    ],
+    "prettyprinter-ansi-terminal": [
+      "ansi-terminal",
+      "base",
+      "prettyprinter",
+      "text"
+    ],
+    "primitive": [
+      "base",
+      "deepseq",
+      "template-haskell",
+      "transformers"
+    ],
+    "process": [
+      "base",
+      "deepseq",
+      "directory",
+      "filepath",
+      "os-string",
+      "unix"
+    ],
+    "random": [
+      "base",
+      "bytestring",
+      "deepseq",
+      "mtl",
+      "splitmix"
+    ],
+    "resourcet": [
+      "base",
+      "containers",
+      "exceptions",
+      "mtl",
+      "primitive",
+      "transformers",
+      "unliftio-core"
+    ],
+    "rts": [],
+    "scientific": [
+      "base",
+      "binary",
+      "bytestring",
+      "containers",
+      "deepseq",
+      "hashable",
+      "integer-logarithms",
+      "primitive",
+      "template-haskell",
+      "text"
+    ],
+    "semialign": [
+      "base",
+      "containers",
+      "hashable",
+      "indexed-traversable",
+      "indexed-traversable-instances",
+      "semigroupoids",
+      "tagged",
+      "these",
+      "unordered-containers",
+      "vector"
+    ],
+    "semigroupoids": [
+      "base",
+      "base-orphans",
+      "bifunctors",
+      "comonad",
+      "containers",
+      "contravariant",
+      "hashable",
+      "tagged",
+      "template-haskell",
+      "transformers",
+      "transformers-compat",
+      "unordered-containers"
+    ],
+    "split": [
+      "base"
+    ],
+    "splitmix": [
+      "base",
+      "deepseq"
+    ],
+    "stm": [
+      "array",
+      "base"
+    ],
+    "streaming-commons": [
+      "array",
+      "async",
+      "base",
+      "bytestring",
+      "directory",
+      "network",
+      "process",
+      "random",
+      "stm",
+      "text",
+      "transformers",
+      "unix",
+      "zlib"
+    ],
+    "strict": [
+      "assoc",
+      "base",
+      "binary",
+      "bytestring",
+      "deepseq",
+      "ghc-prim",
+      "hashable",
+      "text",
+      "these",
+      "transformers"
+    ],
+    "tagged": [
+      "base",
+      "deepseq",
+      "template-haskell",
+      "transformers"
+    ],
+    "tasty": [
+      "ansi-terminal",
+      "base",
+      "containers",
+      "optparse-applicative",
+      "stm",
+      "tagged",
+      "terminal-size",
+      "transformers",
+      "unix"
+    ],
+    "template-haskell": [
+      "base",
+      "ghc-boot-th",
+      "ghc-prim",
+      "pretty"
+    ],
+    "terminal-size": [
+      "base"
+    ],
+    "text": [
+      "array",
+      "base",
+      "binary",
+      "bytestring",
+      "deepseq",
+      "ghc-prim",
+      "template-haskell"
+    ],
+    "text-iso8601": [
+      "base",
+      "integer-conversion",
+      "text",
+      "time",
+      "time-compat"
+    ],
+    "text-short": [
+      "base",
+      "binary",
+      "bytestring",
+      "deepseq",
+      "ghc-prim",
+      "hashable",
+      "template-haskell",
+      "text"
+    ],
+    "th-abstraction": [
+      "base",
+      "containers",
+      "template-haskell"
+    ],
+    "th-compat": [
+      "base",
+      "template-haskell"
+    ],
+    "these": [
+      "assoc",
+      "base",
+      "binary",
+      "deepseq",
+      "hashable"
+    ],
+    "time": [
+      "base",
+      "deepseq"
+    ],
+    "time-compat": [
+      "base",
+      "base-orphans",
+      "deepseq",
+      "hashable",
+      "template-haskell",
+      "time"
+    ],
+    "transformers": [
+      "base"
+    ],
+    "transformers-compat": [
+      "base",
+      "ghc-prim",
+      "transformers"
+    ],
+    "typed-process": [
+      "async",
+      "base",
+      "bytestring",
+      "process",
+      "stm",
+      "text",
+      "transformers",
+      "unliftio-core"
+    ],
+    "unix": [
+      "base",
+      "bytestring",
+      "filepath",
+      "os-string",
+      "time"
+    ],
+    "unliftio-core": [
+      "base",
+      "transformers"
+    ],
+    "unordered-containers": [
+      "base",
+      "deepseq",
+      "hashable",
+      "template-haskell"
+    ],
+    "uuid-types": [
+      "base",
+      "binary",
+      "bytestring",
+      "deepseq",
+      "hashable",
+      "random",
+      "template-haskell",
+      "text"
+    ],
+    "vector": [
+      "base",
+      "deepseq",
+      "primitive",
+      "random",
+      "tasty",
+      "vector-stream"
+    ],
+    "vector-algorithms": [
+      "base",
+      "bitvec",
+      "bytestring",
+      "primitive",
+      "vector"
+    ],
+    "vector-stream": [
+      "base",
+      "ghc-prim"
+    ],
+    "witherable": [
+      "base",
+      "base-orphans",
+      "containers",
+      "hashable",
+      "indexed-traversable",
+      "indexed-traversable-instances",
+      "transformers",
+      "unordered-containers",
+      "vector"
+    ],
+    "zlib": [
+      "base",
+      "bytestring"
+    ]
+  },
+  "stack-test": {
+    "HUnit": [
+      "base",
+      "call-stack",
+      "deepseq"
+    ],
+    "OneTuple": [
+      "base",
+      "ghc-prim",
+      "template-haskell"
+    ],
+    "QuickCheck": [
+      "base",
+      "containers",
+      "deepseq",
+      "random",
+      "splitmix",
+      "template-haskell",
+      "transformers"
+    ],
+    "StateVar": [
+      "base",
+      "stm",
+      "transformers"
+    ],
+    "aeson": [
+      "OneTuple",
+      "QuickCheck",
+      "base",
+      "bytestring",
+      "character-ps",
+      "containers",
+      "data-fix",
+      "deepseq",
+      "dlist",
+      "exceptions",
+      "hashable",
+      "indexed-traversable",
+      "integer-conversion",
+      "integer-logarithms",
+      "network-uri",
+      "primitive",
+      "scientific",
+      "semialign",
+      "strict",
+      "tagged",
+      "template-haskell",
+      "text",
+      "text-iso8601",
+      "text-short",
+      "th-abstraction",
+      "these",
+      "time",
+      "time-compat",
+      "unordered-containers",
+      "uuid-types",
+      "vector",
+      "witherable"
+    ],
+    "ansi-terminal": [
+      "ansi-terminal-types",
+      "base",
+      "colour"
+    ],
+    "ansi-terminal-types": [
+      "base",
+      "colour"
+    ],
+    "appar": [
+      "base",
+      "bytestring"
+    ],
+    "array": [
+      "base"
+    ],
+    "assoc": [
+      "base"
+    ],
+    "async": [
+      "base",
+      "hashable",
+      "stm",
+      "unordered-containers"
+    ],
+    "attoparsec": [
+      "array",
+      "base",
+      "bytestring",
+      "containers",
+      "deepseq",
+      "ghc-prim",
+      "scientific",
+      "text",
+      "transformers"
+    ],
+    "attoparsec-aeson": [
+      "aeson",
+      "attoparsec",
+      "base",
+      "bytestring",
+      "character-ps",
+      "integer-conversion",
+      "primitive",
+      "scientific",
+      "text",
+      "vector"
+    ],
+    "barbies": [
+      "base",
+      "distributive",
+      "transformers"
+    ],
+    "base": [
+      "ghc-internal",
+      "ghc-prim"
+    ],
+    "base-orphans": [
+      "base"
+    ],
+    "base64-bytestring": [
+      "base",
+      "bytestring"
+    ],
+    "bifunctors": [
+      "assoc",
+      "base",
+      "comonad",
+      "containers",
+      "tagged",
+      "template-haskell",
+      "th-abstraction"
+    ],
+    "binary": [
+      "array",
+      "base",
+      "bytestring",
+      "containers"
+    ],
+    "bitvec": [
+      "base",
+      "bytestring",
+      "deepseq",
+      "ghc-bignum",
+      "primitive",
+      "vector"
+    ],
+    "blaze-builder": [
+      "base",
+      "bytestring",
+      "text"
+    ],
+    "boring": [
+      "base",
+      "tagged"
+    ],
+    "byteorder": [
+      "base"
+    ],
+    "bytestring": [
+      "base",
+      "deepseq",
+      "ghc-prim",
+      "template-haskell"
+    ],
+    "call-stack": [
+      "base"
+    ],
+    "case-insensitive": [
+      "base",
+      "bytestring",
+      "deepseq",
+      "hashable",
+      "text"
+    ],
+    "character-ps": [
+      "base"
+    ],
+    "colour": [
+      "base"
+    ],
+    "comonad": [
+      "base",
+      "containers",
+      "distributive",
+      "indexed-traversable",
+      "tagged",
+      "transformers"
+    ],
+    "concurrent-output": [
+      "ansi-terminal",
+      "async",
+      "base",
+      "directory",
+      "exceptions",
+      "process",
+      "stm",
+      "terminal-size",
+      "text",
+      "transformers",
+      "unix"
+    ],
+    "conduit": [
+      "base",
+      "bytestring",
+      "directory",
+      "exceptions",
+      "filepath",
+      "mono-traversable",
+      "mtl",
+      "primitive",
+      "resourcet",
+      "text",
+      "transformers",
+      "unix",
+      "unliftio-core",
+      "vector"
+    ],
+    "conduit-extra": [
+      "async",
+      "attoparsec",
+      "base",
+      "bytestring",
+      "conduit",
+      "directory",
+      "filepath",
+      "network",
+      "primitive",
+      "process",
+      "resourcet",
+      "stm",
+      "streaming-commons",
+      "text",
+      "transformers",
+      "typed-process",
+      "unliftio-core"
+    ],
+    "constraints": [
+      "base",
+      "binary",
+      "boring",
+      "deepseq",
+      "hashable",
+      "mtl",
+      "transformers"
+    ],
+    "containers": [
+      "array",
+      "base",
+      "deepseq",
+      "template-haskell"
+    ],
+    "contravariant": [
+      "StateVar",
+      "base",
+      "transformers"
+    ],
+    "cookie": [
+      "base",
+      "bytestring",
+      "data-default-class",
+      "deepseq",
+      "text",
+      "time"
+    ],
+    "data-default": [
+      "base",
+      "containers"
+    ],
+    "data-default-class": [
+      "data-default"
+    ],
+    "data-fix": [
+      "base",
+      "deepseq",
+      "hashable"
+    ],
+    "deepseq": [
+      "array",
+      "base",
+      "ghc-prim"
+    ],
+    "directory": [
+      "base",
+      "filepath",
+      "os-string",
+      "time",
+      "unix"
+    ],
+    "distributive": [
+      "base",
+      "tagged",
+      "transformers"
+    ],
+    "dlist": [
+      "base",
+      "deepseq"
+    ],
+    "erf": [
+      "base"
+    ],
+    "exceptions": [
+      "base",
+      "mtl",
+      "stm",
+      "template-haskell",
+      "transformers"
+    ],
+    "filepath": [
+      "base",
+      "bytestring",
+      "deepseq",
+      "exceptions",
+      "os-string",
+      "template-haskell"
+    ],
+    "ghc-bignum": [
+      "ghc-prim"
+    ],
+    "ghc-boot-th": [
+      "base"
+    ],
+    "ghc-internal": [
+      "ghc-bignum",
+      "ghc-prim",
+      "rts"
+    ],
+    "ghc-prim": [
+      "rts"
+    ],
+    "hal": [
+      "aeson",
+      "attoparsec-aeson",
+      "base",
+      "base64-bytestring",
+      "bytestring",
+      "case-insensitive",
+      "conduit",
+      "conduit-extra",
+      "containers",
+      "exceptions",
+      "hashable",
+      "hedgehog",
+      "hspec",
+      "hspec-hedgehog",
+      "http-client",
+      "http-types",
+      "mtl",
+      "network",
+      "raw-strings-qq",
+      "scientific",
+      "text",
+      "time",
+      "transformers",
+      "unordered-containers",
+      "vector"
+    ],
+    "happy": [
+      "array",
+      "base",
+      "containers",
+      "happy-lib",
+      "mtl"
+    ],
+    "happy-lib": [
+      "array",
+      "base",
+      "containers",
+      "mtl",
+      "transformers"
+    ],
+    "hashable": [
+      "base",
+      "bytestring",
+      "containers",
+      "deepseq",
+      "filepath",
+      "os-string",
+      "text"
+    ],
+    "haskell-lexer": [
+      "base"
+    ],
+    "hedgehog": [
+      "ansi-terminal",
+      "async",
+      "barbies",
+      "base",
+      "bytestring",
+      "concurrent-output",
+      "containers",
+      "deepseq",
+      "directory",
+      "erf",
+      "exceptions",
+      "lifted-async",
+      "mmorph",
+      "monad-control",
+      "mtl",
+      "pretty-show",
+      "primitive",
+      "random",
+      "resourcet",
+      "safe-exceptions",
+      "stm",
+      "template-haskell",
+      "text",
+      "time",
+      "transformers",
+      "transformers-base",
+      "wl-pprint-annotated"
+    ],
+    "hspec": [
+      "QuickCheck",
+      "base",
+      "hspec-core",
+      "hspec-discover",
+      "hspec-expectations"
+    ],
+    "hspec-core": [
+      "HUnit",
+      "QuickCheck",
+      "ansi-terminal",
+      "array",
+      "base",
+      "call-stack",
+      "containers",
+      "deepseq",
+      "directory",
+      "filepath",
+      "haskell-lexer",
+      "hspec-expectations",
+      "process",
+      "quickcheck-io",
+      "random",
+      "stm",
+      "time",
+      "transformers"
+    ],
+    "hspec-discover": [
+      "base",
+      "directory",
+      "filepath"
+    ],
+    "hspec-expectations": [
+      "HUnit",
+      "base",
+      "call-stack"
+    ],
+    "hspec-hedgehog": [
+      "QuickCheck",
+      "base",
+      "hedgehog",
+      "hspec",
+      "hspec-core",
+      "splitmix"
+    ],
+    "http-client": [
+      "array",
+      "async",
+      "base",
+      "base64-bytestring",
+      "blaze-builder",
+      "bytestring",
+      "case-insensitive",
+      "containers",
+      "cookie",
+      "deepseq",
+      "exceptions",
+      "filepath",
+      "ghc-prim",
+      "http-types",
+      "iproute",
+      "mime-types",
+      "network",
+      "network-uri",
+      "random",
+      "stm",
+      "streaming-commons",
+      "text",
+      "time",
+      "transformers"
+    ],
+    "http-types": [
+      "base",
+      "bytestring",
+      "case-insensitive",
+      "text"
+    ],
+    "indexed-traversable": [
+      "array",
+      "base",
+      "containers",
+      "transformers"
+    ],
+    "indexed-traversable-instances": [
+      "OneTuple",
+      "base",
+      "indexed-traversable",
+      "tagged",
+      "unordered-containers",
+      "vector"
+    ],
+    "integer-conversion": [
+      "base",
+      "bytestring",
+      "primitive",
+      "text"
+    ],
+    "integer-logarithms": [
+      "array",
+      "base"
+    ],
+    "iproute": [
+      "appar",
+      "base",
+      "byteorder",
+      "bytestring",
+      "containers",
+      "network"
+    ],
+    "lifted-async": [
+      "async",
+      "base",
+      "constraints",
+      "lifted-base",
+      "monad-control",
+      "transformers-base"
+    ],
+    "lifted-base": [
+      "base",
+      "monad-control",
+      "transformers-base"
+    ],
+    "mime-types": [
+      "base",
+      "bytestring",
+      "containers",
+      "text"
+    ],
+    "mmorph": [
+      "base",
+      "mtl",
+      "transformers",
+      "transformers-compat"
+    ],
+    "monad-control": [
+      "base",
+      "stm",
+      "transformers",
+      "transformers-base",
+      "transformers-compat"
+    ],
+    "mono-traversable": [
+      "base",
+      "bytestring",
+      "containers",
+      "hashable",
+      "split",
+      "text",
+      "transformers",
+      "unordered-containers",
+      "vector",
+      "vector-algorithms"
+    ],
+    "mtl": [
+      "base",
+      "transformers"
+    ],
+    "network": [
+      "base",
+      "bytestring",
+      "deepseq",
+      "directory",
+      "stm"
+    ],
+    "network-uri": [
+      "base",
+      "deepseq",
+      "parsec",
+      "template-haskell",
+      "th-compat"
+    ],
+    "optparse-applicative": [
+      "base",
+      "prettyprinter",
+      "prettyprinter-ansi-terminal",
+      "process",
+      "text",
+      "transformers",
+      "transformers-compat"
+    ],
+    "os-string": [
+      "base",
+      "bytestring",
+      "deepseq",
+      "exceptions",
+      "template-haskell"
+    ],
+    "parsec": [
+      "base",
+      "bytestring",
+      "mtl",
+      "text"
+    ],
+    "pretty": [
+      "base",
+      "deepseq",
+      "ghc-prim"
+    ],
+    "pretty-show": [
+      "array",
+      "base",
+      "filepath",
+      "ghc-prim",
+      "happy",
+      "haskell-lexer",
+      "pretty",
+      "text"
+    ],
+    "prettyprinter": [
+      "base",
+      "text"
+    ],
+    "prettyprinter-ansi-terminal": [
+      "ansi-terminal",
+      "base",
+      "prettyprinter",
+      "text"
+    ],
+    "primitive": [
+      "base",
+      "deepseq",
+      "template-haskell",
+      "transformers"
+    ],
+    "process": [
+      "base",
+      "deepseq",
+      "directory",
+      "filepath",
+      "os-string",
+      "unix"
+    ],
+    "quickcheck-io": [
+      "HUnit",
+      "QuickCheck",
+      "base"
+    ],
+    "random": [
+      "base",
+      "bytestring",
+      "deepseq",
+      "mtl",
+      "splitmix"
+    ],
+    "raw-strings-qq": [
+      "base",
+      "template-haskell"
+    ],
+    "resourcet": [
+      "base",
+      "containers",
+      "exceptions",
+      "mtl",
+      "primitive",
+      "transformers",
+      "unliftio-core"
+    ],
+    "rts": [],
+    "safe-exceptions": [
+      "base",
+      "deepseq",
+      "exceptions",
+      "transformers"
+    ],
+    "scientific": [
+      "base",
+      "binary",
+      "bytestring",
+      "containers",
+      "deepseq",
+      "hashable",
+      "integer-logarithms",
+      "primitive",
+      "template-haskell",
+      "text"
+    ],
+    "semialign": [
+      "base",
+      "containers",
+      "hashable",
+      "indexed-traversable",
+      "indexed-traversable-instances",
+      "semigroupoids",
+      "tagged",
+      "these",
+      "unordered-containers",
+      "vector"
+    ],
+    "semigroupoids": [
+      "base",
+      "base-orphans",
+      "bifunctors",
+      "comonad",
+      "containers",
+      "contravariant",
+      "hashable",
+      "tagged",
+      "template-haskell",
+      "transformers",
+      "transformers-compat",
+      "unordered-containers"
+    ],
+    "split": [
+      "base"
+    ],
+    "splitmix": [
+      "base",
+      "deepseq"
+    ],
+    "stm": [
+      "array",
+      "base"
+    ],
+    "streaming-commons": [
+      "array",
+      "async",
+      "base",
+      "bytestring",
+      "directory",
+      "network",
+      "process",
+      "random",
+      "stm",
+      "text",
+      "transformers",
+      "unix",
+      "zlib"
+    ],
+    "strict": [
+      "assoc",
+      "base",
+      "binary",
+      "bytestring",
+      "deepseq",
+      "ghc-prim",
+      "hashable",
+      "text",
+      "these",
+      "transformers"
+    ],
+    "tagged": [
+      "base",
+      "deepseq",
+      "template-haskell",
+      "transformers"
+    ],
+    "tasty": [
+      "ansi-terminal",
+      "base",
+      "containers",
+      "optparse-applicative",
+      "stm",
+      "tagged",
+      "terminal-size",
+      "transformers",
+      "unix"
+    ],
+    "template-haskell": [
+      "base",
+      "ghc-boot-th",
+      "ghc-prim",
+      "pretty"
+    ],
+    "terminal-size": [
+      "base"
+    ],
+    "text": [
+      "array",
+      "base",
+      "binary",
+      "bytestring",
+      "deepseq",
+      "ghc-prim",
+      "template-haskell"
+    ],
+    "text-iso8601": [
+      "base",
+      "integer-conversion",
+      "text",
+      "time",
+      "time-compat"
+    ],
+    "text-short": [
+      "base",
+      "binary",
+      "bytestring",
+      "deepseq",
+      "ghc-prim",
+      "hashable",
+      "template-haskell",
+      "text"
+    ],
+    "th-abstraction": [
+      "base",
+      "containers",
+      "template-haskell"
+    ],
+    "th-compat": [
+      "base",
+      "template-haskell"
+    ],
+    "these": [
+      "assoc",
+      "base",
+      "binary",
+      "deepseq",
+      "hashable"
+    ],
+    "time": [
+      "base",
+      "deepseq"
+    ],
+    "time-compat": [
+      "base",
+      "base-orphans",
+      "deepseq",
+      "hashable",
+      "template-haskell",
+      "time"
+    ],
+    "transformers": [
+      "base"
+    ],
+    "transformers-base": [
+      "base",
+      "base-orphans",
+      "stm",
+      "transformers",
+      "transformers-compat"
+    ],
+    "transformers-compat": [
+      "base",
+      "ghc-prim",
+      "transformers"
+    ],
+    "typed-process": [
+      "async",
+      "base",
+      "bytestring",
+      "process",
+      "stm",
+      "text",
+      "transformers",
+      "unliftio-core"
+    ],
+    "unix": [
+      "base",
+      "bytestring",
+      "filepath",
+      "os-string",
+      "time"
+    ],
+    "unliftio-core": [
+      "base",
+      "transformers"
+    ],
+    "unordered-containers": [
+      "base",
+      "deepseq",
+      "hashable",
+      "template-haskell"
+    ],
+    "uuid-types": [
+      "base",
+      "binary",
+      "bytestring",
+      "deepseq",
+      "hashable",
+      "random",
+      "template-haskell",
+      "text"
+    ],
+    "vector": [
+      "base",
+      "deepseq",
+      "primitive",
+      "random",
+      "tasty",
+      "vector-stream"
+    ],
+    "vector-algorithms": [
+      "base",
+      "bitvec",
+      "bytestring",
+      "primitive",
+      "vector"
+    ],
+    "vector-stream": [
+      "base",
+      "ghc-prim"
+    ],
+    "witherable": [
+      "base",
+      "base-orphans",
+      "containers",
+      "hashable",
+      "indexed-traversable",
+      "indexed-traversable-instances",
+      "transformers",
+      "unordered-containers",
+      "vector"
+    ],
+    "wl-pprint-annotated": [
+      "base",
+      "containers",
+      "deepseq",
+      "text"
+    ],
+    "zlib": [
+      "base",
+      "bytestring"
+    ]
+  }
+}

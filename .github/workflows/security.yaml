@@ -1,0 +1,64 @@
+name: Pinned HSEC plans
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  scan:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        plan: [cabal, stack-test, stack-examples]
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: haskell-actions/setup@0f8e8c99d88aeb3fbfd523f1ef2c6f762d10d64d # v2.12.1
+        with:
+          ghc-version: '9.10.3'
+          cabal-version: '3.14.1.1'
+      - name: Verify pinned database and test scanner
+        run: |
+          python3 scripts/security/scan.py fetch "$RUNNER_TEMP/hsec"
+          HSEC_DATABASE="$RUNNER_TEMP/hsec" python3 -m unittest discover -s test/security -v
+      - name: Install verified Stack
+        if: matrix.plan != 'cabal'
+        uses: ./.github/actions/install_stack
+      - name: Resolve current shipped Cabal configuration
+        if: matrix.plan == 'cabal'
+        run: |
+          cabal update
+          cabal build all --enable-tests --jobs=2
+          cp dist-newstyle/cache/plan.json "$RUNNER_TEMP/plan.json"
+      - name: Resolve current shipped Stack test configuration
+        if: matrix.plan == 'stack-test'
+        run: |
+          test "$(stack --numeric-version)" = 3.7.1
+          stack --no-docker --system-ghc --no-install-ghc build hal:lib hal:test:hal-test --test --no-run-tests --jobs 2
+          stack --no-docker --system-ghc --no-install-ghc ls dependencies json --test > "$RUNNER_TEMP/plan.json"
+      - name: Resolve current shipped Stack examples configuration
+        if: matrix.plan == 'stack-examples'
+        run: |
+          test "$(stack --numeric-version)" = 3.7.1
+          stack --no-docker --system-ghc --no-install-ghc --stack-yaml examples/stack.yaml build examples:exe:simple examples:exe:simple-context examples:exe:fallible examples:exe:value examples:exe:sqs-batch --jobs 2
+          stack --no-docker --system-ghc --no-install-ghc --stack-yaml examples/stack.yaml ls dependencies json > "$RUNNER_TEMP/plan.json"
+      - name: Scan resolved inventory and compiler
+        env:
+          PLAN_KIND: ${{ matrix.plan }}
+        run: |
+          test "$(uname -s)" = Linux
+          test "$(uname -m)" = x86_64
+          python3 scripts/security/scan.py scan \
+            --database "$RUNNER_TEMP/hsec" --kind "$PLAN_KIND" \
+            --plan "$RUNNER_TEMP/plan.json" --compiler "$(ghc --numeric-version)" \
+            --os linux --arch x86_64 \
+            --bundled-cabal "$(ghc-pkg field Cabal version --simple-output)"
