@@ -4,14 +4,14 @@ module AWS.Lambda.Runtime.EncodingSpec where
 import           AWS.Lambda.Runtime        (fallibleRuntime, ioRuntime,
                                             pureRuntime)
 import           Control.Concurrent        (ThreadId, forkIO, killThread,
-                                            threadDelay)
+                                            myThreadId, threadDelay)
 import           Control.Concurrent.MVar   (MVar, modifyMVar, modifyMVar_,
-                                            newEmptyMVar, newMVar, readMVar,
-                                            takeMVar, tryPutMVar)
+                                            newEmptyMVar, newMVar, putMVar,
+                                            readMVar, takeMVar, tryPutMVar)
 import           Control.Exception         (AsyncException (ThreadKilled),
                                             SomeException, bracket,
-                                            displayException, finally,
-                                            throw, throwIO, try)
+                                            displayException, finally, mask,
+                                            onException, throw, throwIO, try)
 import           Control.Monad             (forever, unless, void)
 import           Data.Aeson                (ToJSON (..), Value,
                                             eitherDecode, object, pairs,
@@ -29,20 +29,44 @@ import           Data.Text                 (Text)
 import           Network.Socket            (Family (AF_INET), SockAddr (..),
                                             Socket, SocketOption (ReuseAddr),
                                             SocketType (Stream), accept, bind,
-                                            close, defaultProtocol, listen,
-                                            setSocketOption, socket,
+                                            close, connect, defaultProtocol,
+                                            listen, setSocketOption, socket,
                                             socketPort, tupleToHostAddress,
                                             withSocketsDo)
 import           Network.Socket.ByteString (recv, sendAll)
 import           System.Environment        (lookupEnv, setEnv, unsetEnv)
 import           System.Timeout            (timeout)
 import           Test.Hspec                (Expectation, Spec, describe,
-                                            expectationFailure, it)
+                                            expectationFailure, it, shouldBe)
 import           Text.Read                 (readMaybe)
 
 spec :: Spec
 spec =
   describe "response encoding" $ do
+    it "closes a worker and socket when registration is cancelled" $
+      withSocketsDo $ bracket listenOnLoopback close $ \listener -> do
+        port <- socketPort listener
+        workers <- newEmptyMVar
+        started <- newEmptyMVar
+        blocker <- newEmptyMVar
+        stopped <- newEmptyMVar
+        let serve _ =
+              (myThreadId >>= putMVar started >> takeMVar blocker)
+                `finally` putMVar stopped ()
+        bracket (forkIO (acceptConnections listener workers serve)) killThread $ \acceptor ->
+          bracket (socket AF_INET Stream defaultProtocol) close $ \client -> do
+            connect client (SockAddrInet port (tupleToHostAddress (127, 0, 0, 1)))
+            worker <- timeout 2000000 (takeMVar started)
+            case worker of
+              Nothing -> expectationFailure "worker did not start"
+              Just workerId -> flip finally (killThread workerId) $ do
+                -- An empty MVar holds registration at the ownership transfer.
+                killThread acceptor
+                finished <- timeout 2000000 (readMVar stopped)
+                finished `shouldBe` Just ()
+                closed <- timeout 2000000 (recv client 1)
+                closed `shouldBe` Just BS.empty
+
     it "reports an exception in a lazily evaluated result as an invocation error" $ do
       let handler :: Value -> String
           handler event =
@@ -295,10 +319,12 @@ listenOnLoopback = do
   return sock
 
 acceptConnections :: Socket -> MVar [ThreadId] -> (Socket -> IO ()) -> IO ()
-acceptConnections listener workers serve = forever $ do
+acceptConnections listener workers serve = forever $ mask $ \restore -> do
   (conn, _) <- accept listener
-  worker <- forkIO (serve conn `finally` close conn)
+  worker <- forkIO (restore (serve conn) `finally` close conn)
+    `onException` close conn
   modifyMVar_ workers (return . (worker :))
+    `onException` killThread worker
 
 serveConnection
   :: [BS.ByteString]
