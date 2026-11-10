@@ -93,6 +93,7 @@ test-suite hal-test
   type: exitcode-stdio-1.0
   main-is: Spec.hs
   other-modules:
+      AWS.Lambda.Context.Spec
       AWS.Lambda.Events.ApiGateway.ProxyRequest.Gen
       AWS.Lambda.Events.ApiGateway.ProxyRequest.Gen.Parameters
       AWS.Lambda.Events.ApiGateway.ProxyRequest.Gen.Resource

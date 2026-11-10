@@ -19,6 +19,12 @@ The format is based on [Keep a Changelog][chg] and this project adheres to
     now fully encoded before the request to the Runtime API starts, and the
     same bytes are sent.  Only the parts of the result written by its
     `ToJSON` instance are evaluated; no `NFData` instance is needed.
+  - Decode the field names that AWS uses in the client context and Cognito
+    identity headers (`app_title`, `app_version_name`, `app_version_code`,
+    `app_package_name`, `env`, `cognitoIdentityId` and
+    `cognitoIdentityPoolId`). The previous field names are still accepted, and
+    the AWS names take precedence when both are present. `ToJSON` output is
+    unchanged.
 
 ## `1.1` - 2023-12-18
 
