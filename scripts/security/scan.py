@@ -15,6 +15,14 @@ HERE = Path(__file__).resolve().parent
 REVISION = '9fa5787e33f5bb3d73f2a0db22b59fd10921d25f'
 SOURCE = 'https://github.com/haskell/security-advisories'
 COMPONENTS = {'ghc', 'ghci', 'rts', 'ghc-pkg', 'runghc', 'ghc-iserv', 'hp2ps', 'hpc', 'hsc2hs', 'haddock'}
+# Vocabulary from the pinned upstream Format.hs parser and Architecture enum.
+ADVISORY_PLATFORMS = {
+    'os': {'darwin', 'freebsd', 'linux', 'linux-android', 'mingw32', 'netbsd', 'openbsd'},
+    'arch': {'aarch64', 'alpha', 'arm', 'hppa', 'hppa1_1', 'i386', 'ia64', 'm68k',
+             'mips', 'mipseb', 'mipsel', 'nios2', 'powerpc', 'powerpc64', 'powerpc64le',
+             'riscv32', 'riscv64', 'rs6000', 's390', 's390x', 'sh4', 'sparc',
+             'sparc64', 'vax', 'x86_64'},
+}
 
 
 class Invalid(ValueError):
@@ -171,7 +179,9 @@ def parse_advisory(text, identifier):
         cvss(affected['cvss'])
         for key in ('os', 'arch'):
             if key in affected:
-                require(strings(affected[key]), 'empty platform constraint')
+                values = strings(affected[key])
+                require(values, 'empty platform constraint')
+                require(set(values) <= ADVISORY_PLATFORMS[key], f'unknown advisory {key} token')
         if 'api' in affected:
             require(isinstance(affected['api'], list) and affected['api'], 'empty API constraints')
             for api in affected['api']:

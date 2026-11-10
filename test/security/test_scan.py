@@ -78,6 +78,36 @@ class ScannerTests(unittest.TestCase):
         for arch in ['aarch64', 'x86_64']:
             self.assertEqual(scan.matches([doc], {(a['package'], v)}, '9.10.3', 'linux', arch)[0]['platform_applicable'], arch == 'x86_64')
 
+    def test_unknown_advisory_platform_tokens_fail_before_matching(self):
+        source = (DB / 'HSEC-2026-0007.md').read_text()
+        for field, values in [('os', ['linuz']), ('arch', ['future-unrecognized-arch']),
+                              ('os', ['Linux']), ('arch', ['AArch64']),
+                              ('os', ['linux', 'linuz']), ('arch', ['aarch64', 'unknown'])]:
+            changed = source.replace('package = "aeson"',
+                                     'package = "aeson"\n' + field + ' = ' + json.dumps(values), 1)
+            with self.subTest(field=field, values=values), self.assertRaises(scan.Invalid):
+                scan.parse_advisory(changed, 'HSEC-2026-0007')
+
+    def test_upstream_platform_vocabulary_and_applicability(self):
+        # Independent fixture of the pinned upstream parser's accepted vocabulary.
+        vocabulary = {
+            'os': 'darwin freebsd linux linux-android mingw32 netbsd openbsd'.split(),
+            'arch': ('aarch64 alpha arm hppa hppa1_1 i386 ia64 m68k mips mipseb '
+                     'mipsel nios2 powerpc powerpc64 powerpc64le riscv32 riscv64 '
+                     'rs6000 s390 s390x sh4 sparc sparc64 vax x86_64').split(),
+        }
+        source = (DB / 'HSEC-2026-0007.md').read_text()
+        for field, values in vocabulary.items():
+            for value in values:
+                with self.subTest(field=field, value=value):
+                    changed = source.replace('package = "aeson"',
+                                             'package = "aeson"\n' + field + ' = ' + json.dumps([value]), 1)
+                    doc = scan.parse_advisory(changed, 'HSEC-2026-0007')
+                    found = scan.matches([doc], {('aeson', '2.1.2.1')}, '9.10.3', 'linux', 'aarch64')
+                    self.assertEqual(len(found), 1)
+                    self.assertEqual(found[0]['platform_applicable'],
+                                     value == ('linux' if field == 'os' else 'aarch64'))
+
     def test_conditional_api_annotations_never_suppress(self):
         found = scan.matches(self.records, {('jwt', '0.11.0')}, '9.10.3', 'linux', 'aarch64')
         self.assertEqual(len(found), 1)
