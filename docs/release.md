@@ -11,7 +11,8 @@ Preparation uses the repository's `stack.yaml` and its lock file, when present.
 It does not select a second resolver or override dependency bounds. Integrate and
 validate the supported dependency plan before preparing a release; this workflow
 alone does not fix old Aeson or Scientific versions. The release scripts require
-Python 3.11 or newer and Stack 3.7.1 on Linux. The installation action supports
+Python 3.11 or newer, GHC 9.10.3 and Stack 3.7.1 on Linux.
+Preparation uses the installed compiler and disables implicit compiler installation. The installation action supports
 Linux x86_64.
 
 The only accepted tag is `v` followed by the identical version in `package.yaml`

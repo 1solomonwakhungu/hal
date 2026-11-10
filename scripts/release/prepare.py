@@ -82,7 +82,8 @@ def unpack(data, destination, package_version):
 
 def stack(arguments, cwd, capture=False):
     result = subprocess.run(["stack", "--stack-yaml", str(cwd / "stack.yaml"),
-                             "--no-docker", "--no-nix", "--jobs=2", *arguments],
+                             "--no-docker", "--no-nix", "--system-ghc",
+                             "--no-install-ghc", "--jobs=2", *arguments],
                             cwd=cwd, check=True, text=True,
                             stdout=subprocess.PIPE if capture else None)
     return result.stdout
