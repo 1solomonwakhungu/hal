@@ -107,6 +107,7 @@ test-suite hal-test
       AWS.Lambda.Events.Kafka.Spec
       AWS.Lambda.Events.SQS.Spec
       AWS.Lambda.Runtime.EncodingSpec
+      AWS.Lambda.Runtime.TraceSpec
       Gen.Header
       Paths_hal
   hs-source-dirs:

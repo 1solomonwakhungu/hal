@@ -12,6 +12,7 @@ import qualified AWS.Lambda.Events.EventBridge.Spec as EventBridge
 import qualified AWS.Lambda.Events.Kafka.Spec       as Kafka
 import qualified AWS.Lambda.Events.SQS.Spec         as SQS
 import qualified AWS.Lambda.Runtime.EncodingSpec    as RuntimeEncoding
+import qualified AWS.Lambda.Runtime.TraceSpec       as RuntimeTrace
 import           AWS.Lambda.Internal                (StaticContext (..))
 import           AWS.Lambda.RuntimeClient.Internal  (eventResponseToNextData)
 import           Data.Aeson                         (Value (Null))
@@ -44,6 +45,7 @@ main =
       describe "SQS" SQS.spec
 
     describe "Runtime encoding" RuntimeEncoding.spec
+    describe "Runtime trace" RuntimeTrace.spec
 
     describe "Event Response Data" $ do
       let staticContext =
@@ -213,17 +215,53 @@ main =
         fmap clientContext context `shouldBe`
           (Left
              "Runtime Error: Unable to decode Context from event response.\nToo many values for header Lambda-Runtime-Cognito-Identity")
-      it "fails to create the context if trace Id is not provided" $ do
+      it "has the trace id if it was provided" $ do
         let headers =
               [ ("Lambda-Runtime-Aws-Request-Id", "abc")
+              , ( "Lambda-Runtime-Trace-Id"
+                , "Root=1-5759e988-bd862e3fe1be46a994272793;Parent=53995c3f42cd8ad8;Sampled=1")
               , ("Lambda-Runtime-Invoked-Function-Arn", "arn")
               , ("Lambda-Runtime-Deadline-Ms", "12332000")
               ]
         let (_, _, context) =
               eventResponseToNextData staticContext (minJsonResponse headers)
+        fmap xRayTraceId context `shouldBe`
+          Right
+            "Root=1-5759e988-bd862e3fe1be46a994272793;Parent=53995c3f42cd8ad8;Sampled=1"
+      it "has an empty trace id if the trace id is empty" $ do
+        let headers =
+              [ ("Lambda-Runtime-Aws-Request-Id", "abc")
+              , ("Lambda-Runtime-Trace-Id", "")
+              , ("Lambda-Runtime-Invoked-Function-Arn", "arn")
+              , ("Lambda-Runtime-Deadline-Ms", "12332000")
+              ]
+        let (_, _, context) =
+              eventResponseToNextData staticContext (minJsonResponse headers)
+        fmap xRayTraceId context `shouldBe` Right ""
+      it "has an empty trace id if the trace id is not provided" $ do
+        let headers =
+              [ ("Lambda-Runtime-Aws-Request-Id", "abc")
+              , ("Lambda-Runtime-Invoked-Function-Arn", "arn")
+              , ("Lambda-Runtime-Deadline-Ms", "12332000")
+              ]
+        let (id, _, context) =
+              eventResponseToNextData staticContext (minJsonResponse headers)
+        id `shouldBe` "abc"
         context `shouldBe`
-          (Left
-             "Runtime Error: Unable to decode Context from event response.\nMissing response header Lambda-Runtime-Trace-Id")
+          (Right
+             (LambdaContext
+                { functionName = "name"
+                , functionVersion = "version"
+                , functionMemorySize = 128
+                , logGroupName = "logGroupName"
+                , logStreamName = "logStreamName"
+                , awsRequestId = "abc"
+                , invokedFunctionArn = "arn"
+                , xRayTraceId = ""
+                , deadline = posixSecondsToUTCTime 12332
+                , clientContext = Nothing
+                , identity = Nothing
+                }))
       it "fails to create the context if trace id has multiple values" $ do
         let headers = ("Lambda-Runtime-Trace-Id", "123") : basicValidHeaders
         let (_, _, context) =
@@ -231,6 +269,39 @@ main =
         context `shouldBe`
           (Left
              "Runtime Error: Unable to decode Context from event response.\nToo many values for header Lambda-Runtime-Trace-Id")
+      it "fails to create the context if an empty trace id has multiple values" $ do
+        let headers =
+              [ ("Lambda-Runtime-Aws-Request-Id", "abc")
+              , ("Lambda-Runtime-Trace-Id", "")
+              , ("Lambda-Runtime-Trace-Id", "")
+              , ("Lambda-Runtime-Invoked-Function-Arn", "arn")
+              , ("Lambda-Runtime-Deadline-Ms", "12332000")
+              ]
+        let (_, _, context) =
+              eventResponseToNextData staticContext (minJsonResponse headers)
+        context `shouldBe`
+          (Left
+             "Runtime Error: Unable to decode Context from event response.\nToo many values for header Lambda-Runtime-Trace-Id")
+      it "fails to create the context if neither trace id nor function ARN are provided" $ do
+        let headers =
+              [ ("Lambda-Runtime-Aws-Request-Id", "abc")
+              , ("Lambda-Runtime-Deadline-Ms", "12332000")
+              ]
+        let (_, _, context) =
+              eventResponseToNextData staticContext (minJsonResponse headers)
+        context `shouldBe`
+          (Left
+             "Runtime Error: Unable to decode Context from event response.\nMissing response header Lambda-Runtime-Invoked-Function-Arn")
+      it "fails to create the context if neither trace id nor deadline are provided" $ do
+        let headers =
+              [ ("Lambda-Runtime-Aws-Request-Id", "abc")
+              , ("Lambda-Runtime-Invoked-Function-Arn", "arn")
+              ]
+        let (_, _, context) =
+              eventResponseToNextData staticContext (minJsonResponse headers)
+        context `shouldBe`
+          (Left
+             "Runtime Error: Unable to decode Context from event response.\nMissing response header Lambda-Runtime-Deadline-Ms")
       it "fails to create the context if function ARN is not provided" $ do
         let headers =
               [ ("Lambda-Runtime-Aws-Request-Id", "abc")

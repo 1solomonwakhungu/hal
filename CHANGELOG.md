@@ -19,6 +19,10 @@ The format is based on [Keep a Changelog][chg] and this project adheres to
     now fully encoded before the request to the Runtime API starts, and the
     same bytes are sent.  Only the parts of the result written by its
     `ToJSON` instance are evaluated; no `NFData` instance is needed.
+  - A missing `Lambda-Runtime-Trace-Id` header no longer prevents the
+    `LambdaContext` from being created.  Its `xRayTraceId` is empty instead,
+    and `_X_AMZN_TRACE_ID` is unset for that invocation.  This allows handlers
+    that use the context to run under the Lambda Runtime Interface Emulator.
   - Decode the field names that AWS uses in the client context and Cognito
     identity headers (`app_title`, `app_version_name`, `app_version_code`,
     `app_package_name`, `env`, `cognitoIdentityId` and
