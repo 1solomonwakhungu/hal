@@ -11,6 +11,12 @@ The format is based on [Keep a Changelog][chg] and this project adheres to
   - Fix header parsing to accept `null` values serialised as `{}`
   - The `use-aeson-2.2` flag has been removed in favour of a
     dependency on the `attoparsec-aeson` compatibility package.
+  - Decode the field names that AWS uses in the client context and Cognito
+    identity headers (`app_title`, `app_version_name`, `app_version_code`,
+    `app_package_name`, `env`, `cognitoIdentityId` and
+    `cognitoIdentityPoolId`). The previous field names are still accepted, and
+    the AWS names take precedence when both are present. `ToJSON` output is
+    unchanged.
 
 ## `1.1` - 2023-12-18
 

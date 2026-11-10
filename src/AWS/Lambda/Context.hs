@@ -1,3 +1,4 @@
+{-# LANGUAGE CPP            #-}
 {-# LANGUAGE NamedFieldPuns #-}
 
 {-|
@@ -18,12 +19,21 @@ module AWS.Lambda.Context (
 ) where
 
 import           Control.Monad.IO.Class (MonadIO, liftIO)
-import           Data.Aeson             (FromJSON, ToJSON)
+import           Data.Aeson             (FromJSON (..), Object, ToJSON,
+                                         withObject, (.:), (.:!))
+#if MIN_VERSION_aeson(2,0,0)
+import           Data.Aeson.Key         (Key)
+#endif
+import           Data.Aeson.Types       (Parser)
 import           Data.Map               (Map)
 import           Data.Text              (Text)
 import           Data.Time.Clock        (DiffTime, UTCTime,
                                          diffUTCTime, getCurrentTime)
 import           GHC.Generics           (Generic)
+
+#if !MIN_VERSION_aeson(2,0,0)
+type Key = Text
+#endif
 
 data ClientApplication = ClientApplication
   { appTitle       :: Text,
@@ -33,7 +43,19 @@ data ClientApplication = ClientApplication
   } deriving (Show, Generic, Eq)
 
 instance ToJSON ClientApplication
-instance FromJSON ClientApplication
+
+-- | Accepts the field names used by AWS in the @client@ object of the
+-- @Lambda-Runtime-Client-Context@ header (@app_title@, @app_version_name@,
+-- @app_version_code@ and @app_package_name@), as well as the field names
+-- produced by this type's 'ToJSON' instance. When both spellings of a field
+-- are present, the AWS spelling is used.
+instance FromJSON ClientApplication where
+  parseJSON = withObject "ClientApplication" $ \o ->
+    ClientApplication
+      <$> fieldWithAlias o "app_title" "appTitle"
+      <*> fieldWithAlias o "app_version_name" "appVersionName"
+      <*> fieldWithAlias o "app_version_code" "appVersionCode"
+      <*> fieldWithAlias o "app_package_name" "appPackageName"
 
 data ClientContext = ClientContext
   { client      :: ClientApplication,
@@ -42,7 +64,17 @@ data ClientContext = ClientContext
   } deriving (Show, Generic, Eq)
 
 instance ToJSON ClientContext
-instance FromJSON ClientContext
+
+-- | Accepts the @env@ field name used by AWS in the
+-- @Lambda-Runtime-Client-Context@ header, as well as the @environment@ field
+-- name produced by this type's 'ToJSON' instance. When both are present,
+-- @env@ is used.
+instance FromJSON ClientContext where
+  parseJSON = withObject "ClientContext" $ \o ->
+    ClientContext
+      <$> o .: "client"
+      <*> o .: "custom"
+      <*> fieldWithAlias o "env" "environment"
 
 data CognitoIdentity = CognitoIdentity
   { identityId     :: Text
@@ -50,7 +82,31 @@ data CognitoIdentity = CognitoIdentity
   } deriving (Show, Generic, Eq)
 
 instance ToJSON CognitoIdentity
-instance FromJSON CognitoIdentity
+
+-- | Accepts the field names used by AWS in the
+-- @Lambda-Runtime-Cognito-Identity@ header (@cognitoIdentityId@ and
+-- @cognitoIdentityPoolId@), as well as the field names produced by this
+-- type's 'ToJSON' instance. When both spellings of a field are present, the
+-- AWS spelling is used.
+instance FromJSON CognitoIdentity where
+  parseJSON = withObject "CognitoIdentity" $ \o ->
+    CognitoIdentity
+      <$> fieldWithAlias o "cognitoIdentityId" "identityId"
+      <*> fieldWithAlias o "cognitoIdentityPoolId" "identityPoolId"
+
+-- Parses the value stored under the canonical key. The alias is only
+-- consulted when the canonical key is absent: a canonical value that is
+-- @null@ or of the wrong type is an error, and never falls back to the alias.
+fieldWithAlias :: FromJSON a => Object -> Key -> Key -> Parser a
+fieldWithAlias obj canonical alias = do
+  canonicalValue <- obj .:! canonical
+  case canonicalValue of
+    Just value -> pure value
+    Nothing -> do
+      aliasValue <- obj .:! alias
+      case aliasValue of
+        Just value -> pure value
+        Nothing    -> fail ("key " ++ show canonical ++ " not found")
 
 getRemainingTime :: MonadIO m => LambdaContext -> m DiffTime
 getRemainingTime LambdaContext { deadline } =
