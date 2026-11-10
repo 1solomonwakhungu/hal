@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog][chg] and this project adheres to
 [Haskell's Package Versioning Policy][pvp]
 
 ## Unreleased
+  - Require Aeson >=2.2.5.1 and Scientific >=0.3.10.0 to exclude versions
+    affected by HSEC-2026-0007, HSEC-2026-0011 and HSEC-2026-0012.
+  - Narrow this fork's build support to GHC 9.10.3, a frozen Cabal plan and
+    Stack LTS 24.66. Retire older resolver files, rolling nightly, and the
+    unvalidated Nix configuration and workflow. This is a compatibility change.
+  - Add bounded numeric conversion, comparison and encoding regressions.
+    Normalize typed asynchronous exceptions in the runtime test helper for
+    GHC 9.10's exception backtraces; runtime behavior is unchanged.
   - Add `messageGroupId` to SQS Attributes.
   - Fix the type of `messageAttributes` in `SQSEvent`.
   - Fix header parsing to accept `null` values serialised as `{}`

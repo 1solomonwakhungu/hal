@@ -1,3 +1,6 @@
-resolver: lts-24
+resolver: lts-24.66
 packages:
 - .
+
+# Do not relax package bounds; see docs/support.md.
+save-hackage-creds: false

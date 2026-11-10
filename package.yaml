@@ -11,12 +11,16 @@ author:              Nike, Inc.
 maintainer:          nikeoss
 copyright:           2018 Nike, Inc.
 category:            Web,AWS
+tested-with:         GHC == 9.10.3
 extra-source-files:
 - README.md
 - CHANGELOG.md
+- docs/support.md
+- cabal.project
+- cabal.project.freeze
 
 dependencies:
-  - base >= 4.7 && < 5
+  - base >= 4.20 && < 4.21
 
 default-extensions:
   - OverloadedStrings
@@ -55,7 +59,7 @@ ghc-options:
 library:
   source-dirs: src
   dependencies:
-    - aeson >=1.4.1.0 && <2.3
+    - aeson >=2.2.5.1 && <2.3
     - attoparsec-aeson >=2.1.0.0 && <2.3
     - base64-bytestring
     - bytestring
@@ -68,7 +72,7 @@ library:
     - http-client
     - http-types
     - mtl
-    - scientific ^>=0.3.3.0
+    - scientific >=0.3.10.0 && <0.4
     - text
     - time
     - unordered-containers
