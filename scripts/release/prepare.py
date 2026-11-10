@@ -59,12 +59,21 @@ def unpack(data, destination, package_version):
     seen = set()
     with tarfile.open(fileobj=io.BytesIO(raw), mode="r:") as package:
         members = package.getmembers()
+        logical_size = 0
         for member in members:
             path = PurePosixPath(member.name)
             if (path.is_absolute() or ".." in path.parts or not path.parts
                     or path.parts[0] != root or str(path) in seen
                     or not (member.isfile() or member.isdir())):
                 raise ValueError("unsafe or duplicate sdist member")
+            if member.sparse is not None:
+                raise ValueError("sparse sdist members are not supported")
+            if member.isfile():
+                if member.size < 0:
+                    raise ValueError("negative sdist member size")
+                logical_size += member.size
+                if logical_size > MAX_TAR:
+                    raise ValueError("sdist logical size exceeds limit")
             seen.add(str(path))
         for member in members:
             target = destination / member.name
@@ -159,6 +168,17 @@ def verified_artifact(output, tag):
     require_tag(tag, receipt["version"])
     if receipt["tag"] != tag or receipt["artifact"] != f"hal-{receipt['version']}.tar.gz":
         raise ValueError("receipt tag or filename mismatch")
+    plan = read_regular(output / "stack.yaml", 1024 * 1024)
+    if digest(plan) != receipt["stack_yaml_sha256"]:
+        raise ValueError("retained dependency plan changed after validation")
+    lock_path = output / "stack.yaml.lock"
+    if receipt["stack_lock_sha256"] is None:
+        if os.path.lexists(lock_path):
+            raise ValueError("unexpected retained dependency lock")
+    else:
+        lock = read_regular(lock_path, 1024 * 1024)
+        if digest(lock) != receipt["stack_lock_sha256"]:
+            raise ValueError("retained dependency lock changed after validation")
     data = read_regular(output / receipt["artifact"], MAX_ARCHIVE)
     if digest(data) != receipt["sha256"]:
         raise ValueError("artifact changed after validation")

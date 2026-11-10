@@ -165,6 +165,64 @@ class ReleaseTests(unittest.TestCase):
         path.write_bytes(archive({"hal-1.1/hal.cabal": b"version: 1.1\n"}))
         self.no_upload()
 
+    def test_sparse_member_is_rejected_before_extraction(self):
+        output = io.BytesIO()
+        with tarfile.open(fileobj=output, mode="w:gz", format=tarfile.PAX_FORMAT) as package:
+            manifest = b"name: hal\nversion: 1.1\n"
+            member = tarfile.TarInfo("hal-1.1/hal.cabal")
+            member.size = len(manifest)
+            package.addfile(member, io.BytesIO(manifest))
+            sparse = tarfile.TarInfo("hal-1.1/sparse")
+            sparse.size = 1
+            sparse.pax_headers = {"GNU.sparse.map": "262143,1", "GNU.sparse.size": "262144"}
+            package.addfile(sparse, io.BytesIO(b"x"))
+        destination = self.root / "sparse-extract"
+        # A small tar must not expand a 256 KiB logical member past this bound.
+        with mock.patch.object(release, "MAX_TAR", 16384):
+            with self.assertRaisesRegex(ValueError, "sparse"):
+                release.unpack(output.getvalue(), destination, "1.1")
+        self.assertFalse(destination.exists())
+
+    def test_changed_retained_plan_blocks_upload(self):
+        self.prepare()
+        (self.output / "stack.yaml").write_text("changed")
+        self.no_upload()
+
+    def test_missing_retained_plan_blocks_upload(self):
+        self.prepare()
+        (self.output / "stack.yaml").unlink()
+        self.no_upload()
+
+    def test_symlink_retained_plan_blocks_upload(self):
+        self.prepare()
+        path = self.output / "stack.yaml"
+        path.unlink()
+        path.symlink_to(self.source / "stack.yaml")
+        self.no_upload()
+
+    def test_changed_retained_lock_blocks_upload(self):
+        (self.source / "stack.yaml.lock").write_text("original lock")
+        self.prepare()
+        (self.output / "stack.yaml.lock").write_text("changed lock")
+        self.no_upload()
+
+    def test_missing_retained_lock_blocks_upload(self):
+        (self.source / "stack.yaml.lock").write_text("original lock")
+        self.prepare()
+        (self.output / "stack.yaml.lock").unlink()
+        self.no_upload()
+
+    def test_unexpected_dangling_lock_blocks_upload(self):
+        self.prepare()
+        (self.output / "stack.yaml.lock").symlink_to("missing-lock")
+        self.no_upload()
+
+    def test_verified_retained_lock_allows_upload(self):
+        (self.source / "stack.yaml.lock").write_text("original lock")
+        self.prepare()
+        release.exercise_upload(self.output, "v1.1", self.sink)
+        self.assertEqual(self.sink.read_bytes(), self.data)
+
     def test_wrong_upload_tag(self):
         self.prepare()
         self.no_upload("v1.2")
