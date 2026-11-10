@@ -105,6 +105,7 @@ test-suite hal-test
       AWS.Lambda.Events.Kafka.Gen
       AWS.Lambda.Events.Kafka.Spec
       AWS.Lambda.Events.SQS.Spec
+      AWS.Lambda.Runtime.TraceSpec
       Gen.Header
       Paths_hal
   hs-source-dirs:
@@ -143,6 +144,7 @@ test-suite hal-test
     , hspec-hedgehog
     , http-client
     , http-types >=0.12.2 && <0.13
+    , network
     , raw-strings-qq ==1.1.*
     , scientific
     , text

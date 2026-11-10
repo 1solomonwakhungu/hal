@@ -11,6 +11,10 @@ The format is based on [Keep a Changelog][chg] and this project adheres to
   - Fix header parsing to accept `null` values serialised as `{}`
   - The `use-aeson-2.2` flag has been removed in favour of a
     dependency on the `attoparsec-aeson` compatibility package.
+  - A missing `Lambda-Runtime-Trace-Id` header no longer prevents the
+    `LambdaContext` from being created.  Its `xRayTraceId` is empty instead,
+    and `_X_AMZN_TRACE_ID` is unset for that invocation.  This allows handlers
+    that use the context to run under the Lambda Runtime Interface Emulator.
 
 ## `1.1` - 2023-12-18
 
