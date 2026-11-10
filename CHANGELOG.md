@@ -11,6 +11,14 @@ The format is based on [Keep a Changelog][chg] and this project adheres to
   - Fix header parsing to accept `null` values serialised as `{}`
   - The `use-aeson-2.2` flag has been removed in favour of a
     dependency on the `attoparsec-aeson` compatibility package.
+  - An exception raised while encoding a handler's result (for example from
+    a lazily evaluated part of the result, or from a failing `toJSON` or
+    `toEncoding`) is now reported as an error for that invocation, and the
+    runtime goes on to the next event.  Previously the exception escaped and
+    the runtime process exited without reporting it.  The response body is
+    now fully encoded before the request to the Runtime API starts, and the
+    same bytes are sent.  Only the parts of the result written by its
+    `ToJSON` instance are evaluated; no `NFData` instance is needed.
 
 ## `1.1` - 2023-12-18
 

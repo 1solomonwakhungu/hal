@@ -93,6 +93,7 @@ tests:
     - hspec-hedgehog
     - http-client
     - http-types ^>= 0.12.2
+    - network
     - raw-strings-qq ^>=1.1
     - scientific
     - text

@@ -21,8 +21,12 @@ import           AWS.Lambda.Context                (LambdaContext)
 import           AWS.Lambda.Internal               (StaticContext, getStaticContext)
 import           AWS.Lambda.RuntimeClient.Internal (eventResponseToNextData)
 import           Control.Concurrent                (threadDelay)
-import           Control.Exception                 (IOException, displayException,
-                                                    throw, try)
+import           Control.Exception                 (IOException,
+                                                    SomeAsyncException,
+                                                    SomeException,
+                                                    displayException, evaluate,
+                                                    fromException, throw,
+                                                    throwIO, try)
 import           Control.Monad                     (unless, void)
 import           Control.Monad.IO.Class            (MonadIO, liftIO)
 import           Data.Aeson                        (Value, encode)
@@ -34,6 +38,7 @@ import qualified Data.ByteString.Lazy              as BSW
 import           Data.Conduit                      (ConduitM, runConduit, yield,
                                                     (.|))
 import           Data.Conduit.Attoparsec           (sinkParser)
+import           Data.Maybe                        (isJust)
 #if !MIN_VERSION_base(4,11,0)
 import           Data.Semigroup                    ((<>))
 #endif
@@ -129,8 +134,37 @@ getNextEvent (RuntimeClientConfig baseRuntimeRequest manager _) = do
     Right y -> return y
 
 sendEventSuccess :: ToJSON a => RuntimeClientConfig -> BS.ByteString -> a -> IO ()
-sendEventSuccess rcc@(RuntimeClientConfig baseRuntimeRequest manager _) reqId json = do
-  resOrEx <- runtimeClientRetryTry $ flip httpNoBody manager $ toEventSuccessRequest reqId json baseRuntimeRequest
+sendEventSuccess rcc reqId json = do
+  -- The response body is fully encoded before any request is made.  An
+  -- exception hidden inside the result (a lazily evaluated field, a failing
+  -- 'toJSON' or 'toEncoding' instance, ...) is therefore reported as an error
+  -- for this invocation, just like an exception thrown by the handler itself,
+  -- instead of escaping from the runtime loop.
+  bodyOrMsg <- encodeResponseBody json
+  case bodyOrMsg of
+    Left msg   -> sendEventError rcc reqId msg
+    Right body -> sendEncodedEventSuccess rcc reqId body
+
+-- | Encode a handler result and fully evaluate the encoded bytes.
+--
+-- Synchronous exceptions raised while encoding are returned as an error
+-- message.  Asynchronous exceptions are rethrown unchanged.
+encodeResponseBody :: ToJSON a => a -> IO (Either String BSW.ByteString)
+encodeResponseBody json = do
+  let body = encode json
+  -- Computing the length forces every chunk of the lazy 'BSW.ByteString'.
+  -- Only the parts of the result that the 'ToJSON' instance writes out are
+  -- evaluated.
+  lengthOrEx <- try (evaluate (BSW.length body))
+  case lengthOrEx of
+    Right _ -> return (Right body)
+    Left (ex :: SomeException)
+      | isJust (fromException ex :: Maybe SomeAsyncException) -> throwIO ex
+      | otherwise -> return (Left (displayException ex))
+
+sendEncodedEventSuccess :: RuntimeClientConfig -> BS.ByteString -> BSW.ByteString -> IO ()
+sendEncodedEventSuccess rcc@(RuntimeClientConfig baseRuntimeRequest manager _) reqId body = do
+  resOrEx <- runtimeClientRetryTry $ flip httpNoBody manager $ toEventSuccessRequest reqId body baseRuntimeRequest
 
   let resOrTypedMsg = case resOrEx of
         Left ex ->
@@ -219,9 +253,9 @@ runtimeClientRetry = fmap (either throw id) . runtimeClientRetryTry
 toNextEventRequest :: Request -> Request
 toNextEventRequest = setRequestPath "2018-06-01/runtime/invocation/next"
 
-toEventSuccessRequest :: ToJSON a => BS.ByteString -> a -> Request -> Request
-toEventSuccessRequest reqId json =
-  setRequestBodyJSON json .
+toEventSuccessRequest :: BS.ByteString -> BSW.ByteString -> Request -> Request
+toEventSuccessRequest reqId body =
+  setRequestBodyLBS body .
   setRequestMethod "POST" .
   setRequestPath (BS.concat ["2018-06-01/runtime/invocation/", reqId, "/response"])
 
@@ -245,9 +279,6 @@ toInitErrorRequest e =
 
 getResponseStatus :: Response a -> Status
 getResponseStatus = responseStatus
-
-setRequestBodyJSON :: ToJSON a => a -> Request -> Request
-setRequestBodyJSON = setRequestBodyLBS . encode
 
 setRequestBodyLBS :: BSW.ByteString -> Request -> Request
 setRequestBodyLBS body req = req { requestBody = RequestBodyLBS body }
