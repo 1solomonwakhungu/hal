@@ -3,6 +3,7 @@ import           AWS.Lambda.Context                 (ClientApplication (..),
                                                      ClientContext (..),
                                                      CognitoIdentity (..),
                                                      LambdaContext (..))
+import qualified AWS.Lambda.Context.Spec            as Context
 import qualified Gen.Header                         as Header
 import qualified AWS.Lambda.Events.ApiGateway.ProxyRequest.Spec as ProxyRequest
 import qualified AWS.Lambda.Events.ApiGateway.ProxyResponse.Spec as ProxyResponse
@@ -32,6 +33,7 @@ import           Test.Hspec.Runner                  (hspec)
 main :: IO ()
 main =
   hspec $ do
+    describe "Context" Context.spec
     describe "Events" $ do
       describe "ApiGateway" $ do
         describe "ProxyRequest" ProxyRequest.spec
@@ -98,6 +100,37 @@ main =
                    , custom = singleton "key1" "value1"
                    , environment = singleton "key2" "value2"
                    })))
+      it "has clientContext if it was provided with the AWS field names" $ do
+        let headers =
+              ( "Lambda-Runtime-Client-Context"
+              , "{ \"client\": { \"installation_id\": \"installationId\", \"app_title\": \"title\", \"app_version_name\": \"versionName\", \"app_version_code\": \"versionCode\", \"app_package_name\": \"packageName\" }, \"custom\": { \"key1\": \"value1\" }, \"env\": { \"key2\": \"value2\" } }") :
+              basicValidHeaders
+        let (_, _, context) =
+              eventResponseToNextData staticContext (minJsonResponse headers)
+        fmap clientContext context `shouldBe`
+          (Right
+             (Just
+                (ClientContext
+                   { client =
+                       ClientApplication
+                         { appTitle = "title"
+                         , appVersionName = "versionName"
+                         , appVersionCode = "versionCode"
+                         , appPackageName = "packageName"
+                         }
+                   , custom = singleton "key1" "value1"
+                   , environment = singleton "key2" "value2"
+                   })))
+      it "fails to construct the Context if an AWS client context field is null" $ do
+        let headers =
+              ( "Lambda-Runtime-Client-Context"
+              , "{ \"client\": { \"app_title\": \"title\", \"app_version_name\": \"versionName\", \"app_version_code\": \"versionCode\", \"app_package_name\": \"packageName\" }, \"custom\": { \"key1\": \"value1\" }, \"env\": null, \"environment\": { \"key2\": \"value2\" } }") :
+              basicValidHeaders
+        let (_, _, context) =
+              eventResponseToNextData staticContext (minJsonResponse headers)
+        let msg = either id (const (error "Was able to parse a context that should have failed!")) context
+        msg `shouldStartWith`
+          "Runtime Error: Unable to decode Context from event response.\nCould not JSON decode header Lambda-Runtime-Client-Context: "
       it "fails to construct the Context if the client context can't be parsed" $ do
         let headers =
               ("Lambda-Runtime-Client-Context", "{}") : basicValidHeaders
@@ -132,6 +165,30 @@ main =
                    { identityId = "identityId"
                    , identityPoolId = "identityPoolId"
                    })))
+      it "has identity if it was provided with the AWS field names" $ do
+        let headers =
+              ( "Lambda-Runtime-Cognito-Identity"
+              , "{ \"cognitoIdentityId\": \"identityId\", \"cognitoIdentityPoolId\": \"identityPoolId\" }") :
+              basicValidHeaders
+        let (_, _, context) =
+              eventResponseToNextData staticContext (minJsonResponse headers)
+        fmap identity context `shouldBe`
+          (Right
+             (Just
+                (CognitoIdentity
+                   { identityId = "identityId"
+                   , identityPoolId = "identityPoolId"
+                   })))
+      it "fails to construct the Context if an AWS cognito identity field is null" $ do
+        let headers =
+              ( "Lambda-Runtime-Cognito-Identity"
+              , "{ \"cognitoIdentityId\": null, \"identityId\": \"identityId\", \"cognitoIdentityPoolId\": \"identityPoolId\" }") :
+              basicValidHeaders
+        let (_, _, context) =
+              eventResponseToNextData staticContext (minJsonResponse headers)
+        let msg = either id (const (error "Was able to parse a context that should have failed!")) context
+        msg `shouldStartWith`
+          "Runtime Error: Unable to decode Context from event response.\nCould not JSON decode header Lambda-Runtime-Cognito-Identity: "
       it
         "fails to construct the Context if the cognito identity can't be parsed" $ do
         let headers =
