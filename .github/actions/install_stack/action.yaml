@@ -1,11 +1,8 @@
-name: 'Install Stack'
-description: 'Install the Haskell Stack build tool'
+name: Install Stack
+description: Install checksum-verified Stack 3.7.1 on Linux x86_64
 runs:
-  using: "composite"
-  steps: 
-    - name: Install
-      run: |
-        export PATH=$HOME/.local/bin:$PATH
-        mkdir -p ~/.local/bin
-        curl -L https://get.haskellstack.org/stable/linux-x86_64.tar.gz | tar xz --wildcards --strip-components=1 -C ~/.local/bin '*/stack'
+  using: composite
+  steps:
+    - name: Verify and install Stack
       shell: bash
+      run: python3 "${{ github.action_path }}/install.py"
