@@ -42,7 +42,8 @@ Both the preparation output and synthetic sink must be new paths. The script:
 1. Checks both manifest versions against the tag.
 2. Runs `stack sdist` once with Cabal's package checks enabled and PVP revisions
    disabled. It requires exactly one correctly named archive.
-3. Reads that archive into memory, rejects unsafe members, and unpacks those bytes
+3. Reads that archive into memory, rejects unsafe or sparse members, bounds their
+   cumulative logical file size, and unpacks those bytes
    in a fresh directory. It copies the repository Stack plan and lock there and
    checks that Stack resolves the local `hal` package to that directory.
 4. Builds `hal:test:hal-test`, then explicitly runs that test suite. Any failing
@@ -51,7 +52,8 @@ Both the preparation output and synthetic sink must be new paths. The script:
    bytes, their SHA-256, the completed gates, tag, version, and plan hashes.
 
 The output includes the sdist, `receipt.json`, and copies of the Stack plan and
-available lock file. `verify` rejects a changed archive, symlink, missing gate,
+available lock file. `verify` checks the retained plan and lock against their
+receipt hashes, including missing or unexpected locks. It rejects a changed archive, symlink, missing gate,
 wrong tag, or unexpected artifact path. `exercise-upload` reads and verifies the
 archive once and sends those in-memory bytes over stdin to the fixed local
 `synthetic_uploader.py`. It never invokes a network uploader, runs a caller-supplied
@@ -97,7 +99,7 @@ shared build caches.
 
 ## Local validation
 
-The 34 hermetic guard tests pass in network-disabled containers. A real
+The 42 hermetic guard tests pass in network-disabled containers. A real
 preparation run on Linux aarch64 with GHC 9.10.3, Stack 3.7.1 and LTS 24.66
 created one sdist, checked it, and passed all 102 Haskell examples from its
 unpacked contents. Verification and the synthetic uploader consumed the same
