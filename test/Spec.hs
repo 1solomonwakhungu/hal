@@ -12,6 +12,7 @@ import qualified AWS.Lambda.Events.EventBridge.Spec as EventBridge
 import qualified AWS.Lambda.Events.Kafka.Spec       as Kafka
 import qualified AWS.Lambda.Events.SQS.Spec         as SQS
 import qualified AWS.Lambda.Events.SQS.BatchResponse.Spec as SQSBatchResponse
+import qualified AWS.Lambda.Runtime.EncodingSpec    as RuntimeEncoding
 import qualified AWS.Lambda.Runtime.TraceSpec       as RuntimeTrace
 import           AWS.Lambda.Internal                (StaticContext (..))
 import           AWS.Lambda.RuntimeClient.Internal  (eventResponseToNextData)
@@ -45,6 +46,7 @@ main =
       describe "SQS" SQS.spec
       describe "SQS.BatchResponse" SQSBatchResponse.spec
 
+    describe "Runtime encoding" RuntimeEncoding.spec
     describe "Runtime trace" RuntimeTrace.spec
 
     describe "Event Response Data" $ do
