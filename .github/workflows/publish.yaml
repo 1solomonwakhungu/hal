@@ -1,6 +1,13 @@
 name: Prepare release (publication disabled)
 
 on:
+  pull_request:
+    branches: [master]
+    paths:
+      - .github/workflows/publish.yaml
+      - .github/actions/install_stack/**
+      - scripts/release/**
+      - test/release/**
   workflow_dispatch:
     inputs:
       tag:
@@ -15,15 +22,24 @@ permissions:
   contents: read
 
 jobs:
-  prepare:
+  guards:
     runs-on: ubuntu-24.04
-    timeout-minutes: 45
+    timeout-minutes: 5
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           persist-credentials: false
       - name: Test release guards without network or credentials
         run: python3 -m unittest discover -s test/release -v
+  prepare:
+    if: github.event_name != 'pull_request'
+    needs: guards
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
       - name: Install the supported compiler
         uses: haskell-actions/setup@0f8e8c99d88aeb3fbfd523f1ef2c6f762d10d64d # v2.12.1
         with:

@@ -3,7 +3,9 @@
 Hackage publication is disabled. Tag pushes and manual runs only prepare a checked
 source distribution and retain it as a GitHub Actions artifact for seven days.
 There is no Hackage uploader, publication job, publication switch, or secret
-reference in this workflow. A tag cannot enable publication.
+reference in this workflow. A tag cannot enable publication. Pull requests that
+change the release workflow, installer or scripts run the hermetic guard tests;
+full preparation runs only for a tag push or manual dispatch.
 
 ## Dependency plan and accepted tags
 
@@ -80,6 +82,8 @@ A digest computed from an untrusted download alone is not used as authentication
   [commit cfae313](https://github.com/commercialhaskell/stack/commit/cfae313a06ea9f7278e0ac55a58341fa0440f1aa).
 - [checkout v4.2.2](https://github.com/actions/checkout/tree/11bd71901bbe5b1630ceea73d27597364c9af683)
   is pinned to `11bd71901bbe5b1630ceea73d27597364c9af683`.
+- [haskell-actions/setup v2.12.1](https://github.com/haskell-actions/setup/tree/0f8e8c99d88aeb3fbfd523f1ef2c6f762d10d64d)
+  is pinned to `0f8e8c99d88aeb3fbfd523f1ef2c6f762d10d64d` for GHC 9.10.3.
 - [upload-artifact v4.6.2](https://github.com/actions/upload-artifact/tree/ea165f8d65b6e75b540449e92b4886f43607fa02)
   is pinned to `ea165f8d65b6e75b540449e92b4886f43607fa02`.
 
@@ -90,6 +94,16 @@ Updating Stack requires reviewing its new published checksum and changing both
 version and digest in the installer. The workflow gives `GITHUB_TOKEN` only
 `contents: read`, disables checkout credential persistence, and does not restore
 shared build caches.
+
+## Local validation
+
+The 34 hermetic guard tests pass in network-disabled containers. A real
+preparation run on Linux aarch64 with GHC 9.10.3, Stack 3.7.1 and LTS 24.66
+created one sdist, checked it, and passed all 102 Haskell examples from its
+unpacked contents. Verification and the synthetic uploader consumed the same
+SHA-256-identified bytes. That run supplied no account credentials and had no
+network access. The x86_64 installer archive was checked against the publisher's
+checksum; a full x86_64 release preparation has not been observed locally.
 
 ## External controls, unperformed
 
