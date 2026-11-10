@@ -2,78 +2,43 @@ name: Cabal Haskell Builds
 
 on:
   push:
-    branches:
-      - master
+    branches: [master]
   pull_request:
-    branches:
-      - master
-  schedule:
-    - cron: '0 19 * * 1'
+    branches: [master]
   workflow_dispatch:
+
+permissions:
+  contents: read
 
 jobs:
   build:
-    strategy:
-      fail-fast: false
-      matrix:
-        plan:
-          - ghc-version: '8.4.4'
-            cabal-version: '3.10'
-            ubuntu-version: '24.04'
-          - ghc-version: '8.8'
-            cabal-version: '3.10'
-            ubuntu-version: '24.04'
-          - ghc-version: '8.10.7'
-            cabal-version: '3.10'
-            ubuntu-version: '24.04'
-          - ghc-version: '9.0.2'
-            cabal-version: '3.10'
-            ubuntu-version: '24.04'
-          - ghc-version: '9.2.4'
-            cabal-version: '3.10'
-            ubuntu-version: '24.04'
-          - ghc-version: '9.4.2'
-            cabal-version: '3.10'
-            ubuntu-version: '24.04'
-          - ghc-version: '9.6.7'
-            cabal-version: '3.10'
-            ubuntu-version: 'latest'
-          - ghc-version: '9.8.4'
-            cabal-version: '3.12'
-            ubuntu-version: 'latest'
-          - ghc-version: '9.10.3'
-            cabal-version: '3.14'
-            ubuntu-version: 'latest'
-    runs-on: 'ubuntu-${{ matrix.plan.ubuntu-version }}'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
     steps:
-      - uses: actions/checkout@v2
-      - name: Cache
-        uses: actions/cache@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
-          path: |
-            ~/.cabal/packages
-            ~/.cabal/store
-            dist-newstyle
-          key: ${{ matrix.plan.ghc-version }}-${{ hashFiles('hal.cabal') }}
-          # Still use a reasonable warm start on a miss
-          restore-keys: |
-            ${{ matrix.plan.ghc-version }}-
-      - name: Install Cabal
-        uses: haskell-actions/setup@v2
+          persist-credentials: false
+      - uses: haskell-actions/setup@0f8e8c99d88aeb3fbfd523f1ef2c6f762d10d64d # v2.12.1
         with:
-          ghc-version: ${{ matrix.plan.ghc-version }}
-          cabal-version: ${{ matrix.plan.cabal-version }}
-      - name: Install Project Dependencies (Cabal v2)
+          ghc-version: '9.10.3'
+          cabal-version: '3.14.1.1'
+      - name: Check generated package description
         run: |
-          set -ex
-          cabal install happy
-          cabal install --enable-tests --enable-benchmarks --force-reinstalls --ghc-options=-O0 --reorder-goals --max-backjumps=-1
-          set +ex
-        if: "!startsWith(matrix.plan.cabal-version, '3')"
-      - name: Build Project
+          cabal update
+          cabal install hpack-0.37.0 --ignore-project
+          hpack --force
+          git diff --exit-code -- hal.cabal
+      - name: Build and test the frozen plan
         run: |
-          set -ex
-          cabal configure --enable-tests --ghc-options -O0
-          cabal build
-          cabal test
-          set +ex
+          cabal build all
+          cabal test all --test-show-details=direct --test-options="+RTS -N2 -RTS"
+          cabal check
+          cabal sdist
+      - name: Test the source distribution
+        run: |
+          mkdir sdist-check
+          tar -xzf dist-newstyle/sdist/hal-1.1.tar.gz -C sdist-check
+          cd sdist-check/hal-1.1
+          cabal build all
+          cabal test all --test-show-details=direct --test-options="+RTS -N2 -RTS"
+          cabal check

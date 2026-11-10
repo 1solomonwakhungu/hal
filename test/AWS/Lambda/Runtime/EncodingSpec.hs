@@ -10,7 +10,7 @@ import           Control.Concurrent.MVar   (MVar, modifyMVar, modifyMVar_,
                                             readMVar, takeMVar, tryPutMVar)
 import           Control.Exception         (AsyncException (ThreadKilled),
                                             SomeException, bracket,
-                                            displayException, finally, mask,
+                                            displayException, finally, fromException, mask,
                                             onException, throw, throwIO, try)
 import           Control.Monad             (forever, unless, void)
 import           Data.Aeson                (ToJSON (..), Value,
@@ -283,7 +283,7 @@ runAgainstFakeApiExpectingStop expectedStop invocations runtime = withLambdaEnvi
     runner <- forkIO $ do
       result <- try runtime
       void $ tryPutMVar outcome $ RuntimeStopped $
-        either (displayException :: SomeException -> String)
+        either runtimeExceptionMessage
                (const "the runtime returned")
                result
 
@@ -467,3 +467,11 @@ withLambdaEnvironment action =
       ]
     save name = (,) name <$> lookupEnv name
     restore (name, value) = maybe (unsetEnv name) (setEnv name) value
+
+-- GHC 9.10 may attach a backtrace to SomeException. Match asynchronous
+-- exceptions by their type before rendering, preserving the stop assertion.
+runtimeExceptionMessage :: SomeException -> String
+runtimeExceptionMessage err =
+  case fromException err :: Maybe AsyncException of
+    Just async -> displayException async
+    Nothing -> displayException err

@@ -1,6 +1,3 @@
-[![Stack Haskell Builds](https://github.com/Nike-Inc/hal/actions/workflows/haskell_stack.yaml/badge.svg)](https://github.com/Nike-Inc/hal/actions/workflows/haskell_stack.yaml)
-[![Cabal Haskell Builds](https://github.com/Nike-Inc/hal/actions/workflows/haskell_cabal.yaml/badge.svg)](https://github.com/Nike-Inc/hal/actions/workflows/haskell_cabal.yaml)
-
 # hal
 
 A runtime environment for [Haskell] applications running on [AWS Lambda].
@@ -38,18 +35,22 @@ Naive approaches lead to error rates well over 10%.
 
 ## Supported Platforms / GHC Versions
 
-We currently support this library under the same environment that [AWS Lambda
-supports][lambda-env].
+This fork targets GHC 9.10.3, the committed Cabal freeze, and Stack LTS 24.66.
+Aeson must be at least 2.2.5.1 and Scientific at least 0.3.10.0. Older compiler
+and resolver configurations are retired as a compatibility change. Nix is no
+longer advertised or covered by a build workflow.
 
-Our [CI] currently targets the latest three [LTS Stackage Versions][stackage],
-the latest three minor versions of [GHC] under [Cabal]
-(e.g. `8.6.x`, `8.4.x`, and `8.2.x`), and GHC-head / Stackage nightly builds.
-
-If you haven't already, adding `docker: { enable: true }` to your `stack.yaml`
-file will ensure that you're building a binary that can run in
-[AWS Lambda][lambda-env].
+See [the support contract](docs/support.md) for tested platforms, exact commands,
+dependency advisories, and validation limits. These are fork-specific decisions;
+they do not describe Nike upstream's support policy or prove AWS deployment
+compatibility.
 
 ## Quick Start
+
+The deployment examples below are historical usage guidance. They have not been
+validated against a live AWS account in this fork's dependency update. Use the
+fixed resolver `lts-24.66` and verify the OS/architecture and libc compatibility
+of your deployment image separately.
 
 This quick start assumes you have the following tools installed:
 
@@ -110,7 +111,7 @@ executables:
 # ...
 ```
 
-You'll need to either build on a compatible linux host or inside a compatible docker container (or some other mechanism like nix).
+You'll need to either build on a compatible linux host or inside a compatible docker container.
 Note that current Stack LTS images are _not_ compatible.
 If you see an error message that contains "version 'GLIBC_X.XX' not found" when running (hosted or locally), then your build environment is not compatible.
 
@@ -119,7 +120,7 @@ Enable stack's docker integration and define an optional image within stack.yaml
 ```yaml
 # file: stack.yaml
 docker:
-  enabled: true
+  enable: true
   # If omitted, this defaults to fpco/stack-build:lts-${YOUR_LTS_VERSION}
   image: ${BUILD_IMAGE}
 ```
@@ -182,11 +183,13 @@ aws lambda invoke \
 ### Build
 
 ```bash
-docker pull fpco/stack-build:lts-{version} # First build only, find the latest version in stack.yaml
-stack build --copy-bins
+stack --no-docker test
+stack --no-docker --stack-yaml examples/stack.yaml build
 ```
 
 ### Execute w/ Docker
+
+This historical example needs a separately validated Lambda-compatible build image.
 
 ```bash
 echo '{ "accountId": "byebye" }' | docker run -i --rm \
@@ -197,7 +200,7 @@ echo '{ "accountId": "byebye" }' | docker run -i --rm \
 
 ### Execute w/ SAM Local
 
-Note that hal currently only supports [aws-sam-cli] on versions <1.0.
+This historical [aws-sam-cli] example predates version 1.0 and has not been revalidated.
 
 ```bash
 echo '{ "accountId": "byebye" }' | sam local invoke --region us-east-1

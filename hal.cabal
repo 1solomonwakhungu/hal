@@ -1,6 +1,6 @@
 cabal-version: 1.12
 
--- This file has been generated from package.yaml by hpack version 0.39.1.
+-- This file has been generated from package.yaml by hpack version 0.37.0.
 --
 -- see: https://github.com/sol/hpack
 
@@ -19,9 +19,14 @@ copyright:      2018 Nike, Inc.
 license:        BSD3
 license-file:   LICENSE
 build-type:     Simple
+tested-with:
+    GHC == 9.10.3
 extra-source-files:
     README.md
     CHANGELOG.md
+    docs/support.md
+    cabal.project
+    cabal.project.freeze
 
 source-repository head
   type: git
@@ -70,9 +75,9 @@ library
       ScopedTypeVariables
   ghc-options: -Wall -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -fno-warn-partial-type-signatures -fno-warn-name-shadowing -fwarn-tabs -fwarn-unused-imports -fwarn-missing-signatures -fwarn-incomplete-patterns
   build-depends:
-      aeson >=1.4.1.0 && <2.3
+      aeson >=2.2.5.1 && <2.3
     , attoparsec-aeson >=2.1.0.0 && <2.3
-    , base >=4.7 && <5
+    , base ==4.20.*
     , base64-bytestring
     , bytestring
     , case-insensitive
@@ -84,7 +89,7 @@ library
     , http-client
     , http-types
     , mtl
-    , scientific >=0.3.3.0 && <0.4
+    , scientific >=0.3.10.0 && <0.4
     , text
     , time
     , unordered-containers
@@ -110,6 +115,7 @@ test-suite hal-test
       AWS.Lambda.Events.SQS.Spec
       AWS.Lambda.Runtime.EncodingSpec
       AWS.Lambda.Runtime.TraceSpec
+      DependencySpec
       Gen.Header
       Paths_hal
   hs-source-dirs:
@@ -137,7 +143,7 @@ test-suite hal-test
   ghc-options: -Wall -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -fno-warn-partial-type-signatures -fno-warn-name-shadowing -fwarn-tabs -fwarn-unused-imports -fwarn-missing-signatures -fwarn-incomplete-patterns -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       aeson
-    , base >=4.7 && <5
+    , base ==4.20.*
     , base64-bytestring
     , bytestring
     , case-insensitive
