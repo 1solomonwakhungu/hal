@@ -29,6 +29,11 @@ The format is based on [Keep a Changelog][chg] and this project adheres to
     `cognitoIdentityPoolId`). The previous field names are still accepted, and
     the AWS names take precedence when both are present. `ToJSON` output is
     unchanged.
+  - Add `AWS.Lambda.Events.SQS.BatchResponse` with `BatchResponse` and
+    `BatchItemFailure`, for returning SQS partial batch responses
+    (`{"batchItemFailures":[{"itemIdentifier":"..."}]}`). These are only used
+    when the event source mapping enables `ReportBatchItemFailures`. See
+    `examples/sqsbatch`.
 
 ## `1.1` - 2023-12-18
 
