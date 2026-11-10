@@ -1,5 +1,0 @@
-resolver: lts-20
-packages:
-- .
-extra-deps:
-- attoparsec-aeson-2.1.0.0

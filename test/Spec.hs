@@ -4,6 +4,7 @@ import           AWS.Lambda.Context                 (ClientApplication (..),
                                                      CognitoIdentity (..),
                                                      LambdaContext (..))
 import qualified AWS.Lambda.Context.Spec            as Context
+import qualified DependencySpec
 import qualified Gen.Header                         as Header
 import qualified AWS.Lambda.Events.ApiGateway.ProxyRequest.Spec as ProxyRequest
 import qualified AWS.Lambda.Events.ApiGateway.ProxyResponse.Spec as ProxyResponse
@@ -36,6 +37,7 @@ import           Test.Hspec.Runner                  (hspec)
 main :: IO ()
 main =
   hspec $ do
+    describe "Dependencies" DependencySpec.spec
     describe "Context" Context.spec
     describe "Events" $ do
       describe "ApiGateway" $ do

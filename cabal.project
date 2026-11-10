@@ -1,0 +1,7 @@
+packages: .
+with-compiler: ghc-9.10.3
+index-state: 2026-11-09T00:00:00Z
+tests: True
+benchmarks: False
+-- Security floors are also enforced in package.yaml / hal.cabal.
+constraints: aeson == 2.2.5.1, scientific == 0.3.10.0
