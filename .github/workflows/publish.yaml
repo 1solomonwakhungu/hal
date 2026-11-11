@@ -58,13 +58,16 @@ jobs:
       - name: Prepare isolated Cabal backport
         run: python3 .github/stack-backport/ci.py --work "$RUNNER_TEMP/hal-stack-backport"
       - name: Retrieve public sources without executing package setups
-        run: stack test --dry-run --prefetch
+        run: |
+          stack update
+          stack test --dry-run --prefetch
       - name: Prepare one checked and tested source distribution
         env:
           STACK_ROOT: ${{ runner.temp }}/hal-release-stack
           RELEASE_TAG: ${{ github.event_name == 'push' && github.ref_name || inputs.tag }}
         run: |
           sudo -n unshare --net -- sh -c 'set -eu; ip link set lo up; exec "$@"' sh \
+            setpriv --reuid="$(id -u)" --regid="$(id -g)" --init-groups \
             env -i PATH="$PATH" LANG=C.UTF-8 GHCRTS=-N2 \
             python3 scripts/release/prepare.py prepare --tag "$RELEASE_TAG" --output "$RUNNER_TEMP/hal-release"
       - name: Retain preparation evidence (not a package publication)

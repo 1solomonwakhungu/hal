@@ -35,11 +35,13 @@ jobs:
         run: python3 .github/stack-backport/ci.py --work "$RUNNER_TEMP/hal-stack-backport"
       - name: Retrieve public sources without executing package setups
         run: |
+          stack update
           stack test --dry-run --prefetch
           stack --stack-yaml examples/stack.yaml build --dry-run --prefetch
       - name: Qualify tests, examples, setup routes and synthetic release without network
         run: |
           sudo -n unshare --net -- sh -c 'set -eu; ip link set lo up; exec "$@"' sh \
+            setpriv --reuid="$(id -u)" --regid="$(id -g)" --init-groups \
             env -i PATH="$PATH" LANG=C.UTF-8 \
             python3 .github/stack-backport/qualify.py --work "$RUNNER_TEMP/hal-stack-backport"
       - name: Retain setup qualification evidence
