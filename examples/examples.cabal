@@ -1,0 +1,98 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.37.0.
+--
+-- see: https://github.com/sol/hpack
+
+name:           examples
+version:        0.1.0
+category:       Web,AWS
+author:         Nike, Inc.
+maintainer:     Nike, Inc.
+copyright:      2018 Nike, Inc.
+license:        BSD3
+build-type:     Simple
+extra-source-files:
+    README.md
+
+executable fallible
+  main-is: Main.hs
+  other-modules:
+      Paths_examples
+  hs-source-dirs:
+      fallible
+  default-extensions:
+      OverloadedStrings
+  ghc-options: -Wall -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -fno-warn-partial-type-signatures -fno-warn-name-shadowing -fwarn-tabs -fwarn-unused-imports -fwarn-missing-signatures -fwarn-incomplete-patterns
+  build-depends:
+      aeson
+    , base >=4.7 && <5
+    , hal
+    , text
+    , unordered-containers
+  default-language: Haskell2010
+
+executable simple
+  main-is: Main.hs
+  other-modules:
+      Paths_examples
+  hs-source-dirs:
+      simple
+  default-extensions:
+      OverloadedStrings
+  ghc-options: -Wall -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -fno-warn-partial-type-signatures -fno-warn-name-shadowing -fwarn-tabs -fwarn-unused-imports -fwarn-missing-signatures -fwarn-incomplete-patterns
+  build-depends:
+      aeson
+    , base >=4.7 && <5
+    , hal
+    , text
+  default-language: Haskell2010
+
+executable simple-context
+  main-is: Main.hs
+  other-modules:
+      Paths_examples
+  hs-source-dirs:
+      simplecontext
+  default-extensions:
+      OverloadedStrings
+  ghc-options: -Wall -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -fno-warn-partial-type-signatures -fno-warn-name-shadowing -fwarn-tabs -fwarn-unused-imports -fwarn-missing-signatures -fwarn-incomplete-patterns
+  build-depends:
+      aeson
+    , base >=4.7 && <5
+    , hal
+    , text
+  default-language: Haskell2010
+
+executable sqs-batch
+  main-is: Main.hs
+  other-modules:
+      Paths_examples
+  hs-source-dirs:
+      sqsbatch
+  default-extensions:
+      OverloadedStrings
+  ghc-options: -Wall -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -fno-warn-partial-type-signatures -fno-warn-name-shadowing -fwarn-tabs -fwarn-unused-imports -fwarn-missing-signatures -fwarn-incomplete-patterns
+  build-depends:
+      aeson
+    , base >=4.7 && <5
+    , hal
+    , text
+  default-language: Haskell2010
+
+executable value
+  main-is: Main.hs
+  other-modules:
+      Paths_examples
+  hs-source-dirs:
+      value
+  default-extensions:
+      OverloadedStrings
+  ghc-options: -Wall -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -fno-warn-partial-type-signatures -fno-warn-name-shadowing -fwarn-tabs -fwarn-unused-imports -fwarn-missing-signatures -fwarn-incomplete-patterns
+  build-depends:
+      aeson
+    , base >=4.7 && <5
+    , hal
+    , mtl
+    , text
+  default-language: Haskell2010

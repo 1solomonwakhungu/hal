@@ -1,0 +1,12 @@
+cabal-version: 2.2
+name: header-probe
+version: 0.1
+build-type: Custom
+custom-setup
+  setup-depends: base, Cabal ==3.18.2.0
+library
+  exposed-modules: Probe
+  build-depends: base >=4.20 && <4.21
+  default-language: Haskell2010
+  include-dirs: include
+  includes: probe.h
