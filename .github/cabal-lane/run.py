@@ -119,6 +119,10 @@ class Lane:
                 "global_Cabal": subprocess.check_output(
                     ["ghc-pkg", "field", "Cabal", "version"], env=self.env, text=True)}
 
+    def update_index(self):
+        # Index updates also write a project cache; keep it in the declared build root.
+        self.command("index", ["cabal", "update"] + self.args["hal"])
+
     def prepare(self, package_cache, offline):
         self.work.mkdir()  # Never take over an existing workspace or setup cache.
         self.logs.mkdir()
@@ -150,7 +154,7 @@ class Lane:
         self.accepted_inputs = self.input_snapshot()
         write_json(self.work / "toolchain.json", self.identity())
         if not offline:
-            self.command("index", ["cabal", "update"])
+            self.update_index()
         cache = cache / "hackage.haskell.org"
         verify_manifests(cache, self.pins, self.work / "manifests")
         fetch_sources(cache, self.pins, download=not offline)

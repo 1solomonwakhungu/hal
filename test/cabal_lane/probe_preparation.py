@@ -39,6 +39,13 @@ def qualify(work):
         lane.projects = {'hal': source}
         lane.args = {'hal': ['--builddir=dist-hal']}
         lane.identity()
+        if mode == 'unchanged':
+            lane.accepted_inputs = lane.input_snapshot()
+            # No remote repositories: exercise the actual cache-writing update
+            # command without requiring network access or downloading an index.
+            lane.update_index()
+            assert not (source / 'dist-newstyle').exists()
+            assert (source / 'dist-hal/cache/config').is_file()
         lane.command('original-resolve', ['cabal', 'build', 'all', '--dry-run', '-v2',
                                          '--builddir=dist-hal'], source)
         plan = inputs.read_json(lane.plan('hal'))
