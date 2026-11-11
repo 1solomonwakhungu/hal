@@ -63,13 +63,21 @@ runner with the same isolated subprocess environment.
 `.github/cabal-lane/inputs.json` pins the complete resolved graphs, source hashes,
 revision hashes, flags and dependency edges, including build tools and fixture
 setup dependencies. The separate `.github/cabal-lane/hpack` project freezes
-hpack 0.37.0's bootstrap graph. The run regenerates both `hal.cabal` and
+hpack 0.37.0's bootstrap graph. Its flag constraints use `any.` qualifiers so
+they also apply to build-tool dependencies, regardless of pkg-config availability. The run regenerates both `hal.cabal` and
 `examples/examples.cabal` and fails if either differs from the committed file.
 The example project is constructed from the root project and identical freeze;
 all five executables must build. The HAL checkout and its source distribution
 must each pass the 102-example suite. Logs, original plans, normalized inventories,
 tool identities, manifest bytes, and execution-route receipts remain under the
 qualification directory.
+
+Preparation records all local source/project files, including file membership,
+and the isolated configuration. Build rejects added overrides or changed inputs,
+then re-resolves and checks every plan before compilation. Each command checks
+the accepted snapshot again. Keep the qualification directory private to this
+process; these consistency checks are not a sandbox against a concurrent writer
+who can modify the process, receipt, toolchain or files during execution.
 
 Cabal 3.18.2.0 rejects `--offline` for cached repository sources that still need
 building. The local no-network build therefore uses Docker's network isolation

@@ -8,6 +8,7 @@ GENERATED = b"#define PROBE 2\n"
 
 
 def qualify_headers(lane):
+    lane.check_inputs()
     results = []
     root = lane.projects["header-fixed"]
     plan = read_json(lane.plan("header-fixed"))
@@ -21,6 +22,9 @@ def qualify_headers(lane):
     for path, data in ((root / "include/probe.h", SOURCE), (generated, GENERATED)):
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_bytes(data)
+    # This fixture intentionally adds one synthetic source header after planning.
+    # Production inputs have already passed their unchanged-snapshot checks.
+    lane.accepted_inputs = lane.input_snapshot()
     lane.build_project("header-fixed")
     text = (lane.logs / "header-fixed-build.log").read_text()
     if ("Duplicate header found in" not in text or "use is unspecified." not in text

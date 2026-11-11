@@ -7,6 +7,7 @@ import os
 from pathlib import Path
 import platform
 import shutil
+import stat
 import subprocess
 import sys
 import tarfile
@@ -20,6 +21,27 @@ HERE = Path(__file__).resolve().parent
 
 def write_json(path, value):
     path.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n")
+
+
+def tree_inputs(root, excluded=()):
+    """Bind file contents and membership, including previously absent overrides."""
+    result = {}
+    for current, dirs, files in os.walk(root, followlinks=False):
+        current = Path(current)
+        for name in dirs + files:
+            path = current / name
+            if path.is_symlink():
+                raise ValueError(f"symlink is outside the qualified input snapshot: {path}")
+        if current == root:
+            dirs[:] = [name for name in dirs if name not in excluded]
+        for name in files:
+            path = current / name
+            mode = path.stat().st_mode
+            if not stat.S_ISREG(mode):
+                raise ValueError(f"non-file input: {path}")
+            result[str(path.relative_to(root))] = {
+                "sha256": sha256(path.read_bytes()), "executable": bool(mode & 0o111)}
+    return result
 
 
 class Lane:
@@ -36,6 +58,24 @@ class Lane:
                          "header-fixed": self.work / "header-fixed"}
         self.args = {name: ["--builddir=" + self.dist(name)] for name in self.projects}
         self.args["examples"] += ["--project-file=cabal.examples.project"]
+        self.accepted_inputs = None
+
+    def input_snapshot(self):
+        roots = set(self.projects.values())
+        result = {}
+        for root in roots:
+            excluded = [self.dist(name) for name, path in self.projects.items() if path == root]
+            result[str(root.relative_to(self.work))] = tree_inputs(root, excluded)
+        result["home"] = tree_inputs(self.work / "home")
+        config = self.work / "cabal/config"
+        if config.is_symlink():
+            raise ValueError("Cabal configuration must be a regular file")
+        result["cabal/config"] = sha256(config.read_bytes())
+        return result
+
+    def check_inputs(self):
+        if self.accepted_inputs is not None and self.input_snapshot() != self.accepted_inputs:
+            raise ValueError("local/project/configuration inputs changed since preparation")
 
     def dist(self, name):
         return "dist-" + name
@@ -44,6 +84,7 @@ class Lane:
         return self.projects[name] / self.dist(name) / "cache/plan.json"
 
     def command(self, name, args, cwd=None):
+        self.check_inputs()
         log = self.logs / (name + ".log")
         if log.exists():
             raise ValueError(f"refusing to overwrite command evidence: {log}")
@@ -56,6 +97,7 @@ class Lane:
         if result.returncode:
             print(log.read_text()[-8000:])
             raise RuntimeError(f"command failed; full evidence: {log}")
+        self.check_inputs()
         return log.read_text()
 
     def identity(self):
@@ -105,6 +147,7 @@ class Lane:
             project.replace("packages: .\n", "packages: . examples\n"))
         shutil.copyfile(self.source / "cabal.project.freeze",
                         self.source / "cabal.examples.project.freeze")
+        self.accepted_inputs = self.input_snapshot()
         write_json(self.work / "toolchain.json", self.identity())
         if not offline:
             self.command("index", ["cabal", "update"])
@@ -118,9 +161,12 @@ class Lane:
             verify_plan(plan, self.pins, name)
             write_json(self.work / (name + "-normalized.json"), normalized_plan(plan))
         write_json(self.work / "prepared.json", {"package_cache": str(cache),
-                    "inputs_sha256": sha256((HERE / "inputs.json").read_bytes())})
+                    "inputs_sha256": sha256((HERE / "inputs.json").read_bytes()),
+                    "local_inputs": self.accepted_inputs})
 
     def build_project(self, name):
+        self.check_inputs()
+        verify_plan(read_json(self.plan(name)), self.pins, name)
         unit_logs = self.logs / (name + "-units")
         unit_logs.mkdir()
         self.command(name + "-build", ["cabal", "build", "all", "-j3", "-v3",
@@ -175,6 +221,10 @@ class Lane:
         receipt = read_json(self.work / "prepared.json")
         if receipt["inputs_sha256"] != sha256((HERE / "inputs.json").read_bytes()):
             raise ValueError("input lock changed since preparation")
+        self.accepted_inputs = receipt["local_inputs"]
+        if not isinstance(self.accepted_inputs, dict) or not self.accepted_inputs:
+            raise ValueError("missing prepared input snapshot")
+        self.check_inputs()
         self.identity()
         fetch_sources(Path(receipt["package_cache"]), self.pins)
         store = self.work / "cabal/store"
@@ -182,6 +232,8 @@ class Lane:
             raise ValueError("build qualification requires a cold package/setup store")
         write_json(self.work / "build-start.json", {"cold_store": True})
         for name in self.projects:
+            self.command(name + "-revalidate", ["cabal", "build", "all", "--dry-run", "-v2"]
+                         + self.args[name], self.projects[name])
             verify_plan(read_json(self.plan(name)), self.pins, name)
         self.build_project("hal")
         self.test_hal("hal", self.source, self.args["hal"])
