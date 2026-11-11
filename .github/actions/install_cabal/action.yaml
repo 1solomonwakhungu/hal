@@ -1,0 +1,14 @@
+name: Install Cabal
+description: Install pinned Cabal 3.18.2.0 on Linux x86_64 or aarch64
+runs:
+  using: composite
+  steps:
+    - name: Verify and install Cabal
+      shell: bash
+      env:
+        CABAL_ACTION_PATH: ${{ github.action_path }}
+      run: |
+        set -euo pipefail
+        tool_root="$(mktemp -d "${RUNNER_TEMP:?}/hal-cabal-3.18.2.0.XXXXXXXX")"
+        python3 "$CABAL_ACTION_PATH/install.py" --destination "$tool_root/bin"
+        printf '%s\n' "$tool_root/bin" >> "${GITHUB_PATH:?}"

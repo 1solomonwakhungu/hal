@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog][chg] and this project adheres to
 [Haskell's Package Versioning Policy][pvp]
 
 ## Unreleased
+
+- Qualify the Linux Cabal build lane with verified Cabal 3.18.2.0, pinned bootstrap inputs and explicit setup-route checks.
   - Require Aeson >=2.2.5.1 and Scientific >=0.3.10.0 to exclude versions
     affected by HSEC-2026-0007, HSEC-2026-0011 and HSEC-2026-0012.
   - Narrow this fork's build support to GHC 9.10.3, a frozen Cabal plan and
