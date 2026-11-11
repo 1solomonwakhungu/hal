@@ -27,7 +27,14 @@ shell code.
 
 ## One artifact through all gates
 
-From a clean checkout with an isolated Stack home and no publication credentials:
+The workflow installs the [isolated Cabal backport launcher](stack-backport.md)
+before preparing the artifact. Public dependency retrieval precedes the build;
+the actual package checks, builds and tests run with network access disabled and
+loopback enabled. The original compiler installation is not changed. Running an
+ordinary Stack executable without that launcher retains the affected setup route.
+
+From a clean checkout with that launcher first on PATH, an isolated Stack home
+and no publication credentials:
 
 ```sh
 python3 -m unittest discover -s test/release -v

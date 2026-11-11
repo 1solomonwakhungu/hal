@@ -84,7 +84,11 @@ building. The local no-network build therefore uses Docker's network isolation
 with preverified cached archives, without that client flag. No bounds overrides
 or changed source hashes are accepted.
 
-For Stack, use the fixed snapshot and its committed lock metadata:
+For Stack, use the fixed snapshot and its committed lock metadata through the
+[isolated setup-library launcher](stack-backport.md). The workflow prepares a
+private GHC prefix with the provenance-pinned Cabal 3.12.1.0 deletion-removal
+backport; changing only the Stack executable on PATH does not select that library.
+The following commands assume the prepared launcher is first on PATH:
 
 ```sh
 stack --no-docker --system-ghc --no-install-ghc test --jobs 2 --test-arguments="+RTS -N2 -RTS"
@@ -150,10 +154,12 @@ remains in the raw bootstrap inventory. The reviewed hpack source imports Cabal
 syntax/parsing modules; this observation does not qualify arbitrary programs
 linked against the old library.
 
-Stack and release preparation continue to use the compiler's affected Cabal
-3.12.1.0 setup library. Their existing successful builds do not remedy that
-exposure. They have not been changed by this Cabal-only work. Publication remains
-disabled.
+Stack and release preparation use the separate private-prefix backport described
+above for external setups. The compiler's original Cabal 3.12.1.0 registration,
+Stack's embedded Cabal/hpack graph and ghc-pkg's embedded code are unchanged.
+Ordinary Stack commands without that launcher still select the original affected
+library. This mitigation does not qualify arbitrary Custom setups or remove the
+raw inventory matches. Publication remains disabled.
 
 The pinned [HSEC-2026-0006 record](https://github.com/haskell/security-advisories/blob/9fa5787e33f5bb3d73f2a0db22b59fd10921d25f/advisories/published/2026/HSEC-2026-0006.md)
 has an open-ended affected range, so even 3.18.2.0 still matches it. Raw matches

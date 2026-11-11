@@ -6,8 +6,11 @@ on:
     paths:
       - .github/workflows/publish.yaml
       - .github/actions/install_stack/**
+      - .github/stack-backport/**
+      - .github/actions/install_cabal/**
       - scripts/release/**
       - test/release/**
+      - test/stack_backport/**
   workflow_dispatch:
     inputs:
       tag:
@@ -30,7 +33,9 @@ jobs:
         with:
           persist-credentials: false
       - name: Test release guards without network or credentials
-        run: python3 -m unittest discover -s test/release -v
+        run: |
+          python3 -B -m unittest discover -s test/release -v
+          python3 -B -m unittest discover -s test/stack_backport -v
   prepare:
     if: github.event_name != 'pull_request'
     needs: guards
@@ -45,18 +50,36 @@ jobs:
         with:
           ghc-version: '9.10.3'
           cabal-version: '3.14.1.1'
+          cabal-update: false
       - name: Install verified Stack
         uses: ./.github/actions/install_stack
+      - name: Install verified bootstrap Cabal
+        uses: ./.github/actions/install_cabal
+      - name: Prepare isolated Cabal backport
+        run: python3 .github/stack-backport/ci.py --work "$RUNNER_TEMP/hal-stack-backport"
+      - name: Retrieve public sources without executing package setups
+        run: |
+          stack update
+          stack test --dry-run --prefetch
       - name: Prepare one checked and tested source distribution
         env:
           STACK_ROOT: ${{ runner.temp }}/hal-release-stack
           RELEASE_TAG: ${{ github.event_name == 'push' && github.ref_name || inputs.tag }}
-        run: python3 scripts/release/prepare.py prepare --tag "$RELEASE_TAG" --output "$RUNNER_TEMP/hal-release"
+        run: |
+          sudo -n unshare --net -- sh -c 'set -eu; ip link set lo up; exec "$@"' sh \
+            setpriv --reuid="$(id -u)" --regid="$(id -g)" --init-groups \
+            env -i PATH="$PATH" LANG=C.UTF-8 GHCRTS=-N2 \
+            python3 scripts/release/prepare.py prepare --tag "$RELEASE_TAG" --output "$RUNNER_TEMP/hal-release"
       - name: Retain preparation evidence (not a package publication)
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: release-preparation
-          path: ${{ runner.temp }}/hal-release/
+          path: |
+            ${{ runner.temp }}/hal-release/
+            ${{ runner.temp }}/hal-stack-backport/*.json
+            ${{ runner.temp }}/hal-stack-backport/logs/
+            ${{ runner.temp }}/hal-stack-backport/invocations/
+            ${{ runner.temp }}/hal-stack-backport/setup-links/
           if-no-files-found: error
           retention-days: 7
       - name: Publication disabled

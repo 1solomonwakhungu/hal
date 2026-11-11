@@ -1,0 +1,20 @@
+{
+  "hal_base": "b323ba7b0180ef9d4d8c8134069793cf19123d75",
+  "cabal_revision": "260ecdc3d848782d4df49e629cb0a5dc9e96ca9e",
+  "upstream_patch_commit": "98668b285ed221bb385f5205b9ffd922acf3642d",
+  "upstream_pr": "https://github.com/haskell/cabal/pull/11733",
+  "archive": {
+    "url": "https://codeload.github.com/haskell/cabal/tar.gz/260ecdc3d848782d4df49e629cb0a5dc9e96ca9e",
+    "sha256": "58efa171d762ba92d5e56675aff5db883a7841451c795e3d4941e6596cebae04",
+    "bytes": 2499103
+  },
+  "files_verified": 4184,
+  "path": "Cabal/src/Distribution/Simple/Configure.hs",
+  "preimage_sha256": "ea9ff1f4703686882649f96c6752026ce7cb87131e03084ee732828f623ed0d2",
+  "preimage_git_blob": "d6bffddf365519c296c57b0eec113d2a10b6963d",
+  "postimage_sha256": "93eda1c3e9e926a8de370977242b3bba775eb8cc0b63df16ba9323b5b0ecf664",
+  "patch_sha256": "0c66e93c9370ea694c68e0d02d81b912edf2fac6b2fa6aeb539bed19b64a80db",
+  "source_tree": "81886964d0a21f61af0d36b86bf4fa8f8cfcdf48",
+  "upstream_files_sha256": "a26042c6baea1650f05c3c848918832a645270cb4387cc6e139a096000fea6fd",
+  "legal": "Original Cabal LICENSE and source notices are preserved in the source archive and extracted library."
+}

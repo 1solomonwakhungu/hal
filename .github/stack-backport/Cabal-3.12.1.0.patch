@@ -1,0 +1,31 @@
+--- a/Cabal/src/Distribution/Simple/Configure.hs
++++ b/Cabal/src/Distribution/Simple/Configure.hs
+@@ -2318,14 +2318,10 @@
+     -- in either the generated (most likely by `configure`)
+     -- build directory (e.g. `dist/build`) or in the source directory.
+     --
+-    -- If it exists in both, we'll remove the one in the source
+-    -- directory, as the generated should take precedence.
++    -- If it exists in both, issue a warning, because C compilers are
++    -- not guaranteed to pick the correct one and there appears to be
++    -- no way to control which is picked.
+     --
+-    -- C compilers like to prefer source local relative includes,
+-    -- so the search paths provided to the compiler via -I are
+-    -- ignored if the included file can be found relative to the
+-    -- including file.  As such we need to take drastic measures
+-    -- and delete the offending file in the source directory.
+     checkDuplicateHeaders = do
+       let relIncDirs = filter (not . isAbsolute) (collectField includeDirs)
+           isHeader = isSuffixOf ".h"
+@@ -2342,9 +2338,7 @@
+             ++ (buildDir lbi </> hdr)
+             ++ " and "
+             ++ (baseDir lbi </> hdr)
+-            ++ "; removing "
+-            ++ (baseDir lbi </> hdr)
+-        removeFile (baseDir lbi </> hdr)
++            ++ ". Which one the C compiler will use is unspecified."
+ 
+     findOffendingHdr =
+       ifBuildsWith
