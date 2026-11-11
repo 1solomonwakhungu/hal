@@ -15,11 +15,19 @@ import subprocess
 import sys
 import threading
 import uuid
-from cache_guard import digest, snapshot
+from cache_guard import digest, snapshot, project_setups, require_enrollment_evidence
 from evidence import routes
 
 
 def execute(work, stack, arguments, cwd=None):
+    # These options can suppress or reshape the process records used as evidence.
+    logging = ('--verbosity', '--silent', '--color', '--colour', '--terminal',
+               '--no-terminal', '--time-in-log', '--no-time-in-log',
+               '--rsl-in-log', '--no-rsl-in-log', '--plan-in-log', '--no-plan-in-log',
+               '--stack-colors', '--stack-colours', '--terminal-width',
+               '--dump-logs', '--no-dump-logs')
+    if any(arg == flag or arg.startswith(flag+'=') for arg in arguments for flag in logging):
+        raise ValueError('logging override is outside qualification')
     work = work.resolve()
     cwd = Path(cwd or Path.cwd()).resolve()
     receipt_path = work/'preparation.json'
@@ -42,7 +50,7 @@ def execute(work, stack, arguments, cwd=None):
     with (work/('stack-'+key+'.lock')).open('a') as lock:
         fcntl.flock(lock, fcntl.LOCK_EX)
         current = snapshot(root/'setup-exe-cache')
-        local = {str(p.relative_to(cwd)): digest(p) for p in cwd.glob('**/.stack-work/**/setup/setup')}
+        local = project_setups(cwd)
         if state_file.exists():
             state = json.loads(state_file.read_text())
             if state['identity'] != identity or state['cache'] != current:
@@ -66,7 +74,7 @@ def execute(work, stack, arguments, cwd=None):
         for name in ('TMPDIR', 'LANG', 'LC_ALL', 'GHCRTS'):
             if name in os.environ:
                 env[name] = os.environ[name]
-        arguments = [a for a in arguments if a not in ('--verbose', '--system-ghc', '--no-install-ghc')]
+        arguments = [a for a in arguments if a not in ('-v', '--verbose', '--system-ghc', '--no-install-ghc')]
         command = [str(stack), '--verbose', '--system-ghc', '--no-install-ghc', *arguments]
         directory = work/'invocations'/uuid.uuid4().hex
         directory.mkdir(parents=True)
@@ -92,8 +100,12 @@ def execute(work, stack, arguments, cwd=None):
             return result.returncode
         observed = routes(work, (directory/'stderr.log').read_text())
         (directory/'routes.json').write_text(json.dumps(observed, indent=2)+'\n')
-        state['cache'] = snapshot(root/'setup-exe-cache')
-        state['projects'][str(cwd)] = {str(p.relative_to(cwd)): digest(p) for p in cwd.glob('**/.stack-work/**/setup/setup')}
+        new_cache = snapshot(root/'setup-exe-cache')
+        new_local = project_setups(cwd)
+        require_enrollment_evidence(state['cache'], new_cache, observed)
+        require_enrollment_evidence(state['projects'].get(str(cwd), {}), new_local, observed)
+        state['cache'] = new_cache
+        state['projects'][str(cwd)] = new_local
         state_file.write_text(json.dumps(state, indent=2)+'\n')
         return 0
 

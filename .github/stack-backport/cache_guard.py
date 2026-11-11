@@ -6,6 +6,7 @@ integrity check, not protection against a concurrent writer or arbitrary code.
 """
 import hashlib
 import json
+import os
 from pathlib import Path
 
 
@@ -35,3 +36,30 @@ def verify(root, receipt, identities):
         raise ValueError("source, compiler or library identity changed")
     if data["setup_cache"] != snapshot(root):
         raise ValueError("setup cache changed; reject before invoking Stack")
+
+
+def project_setups(root):
+    """Inventory local setup executables; never follow directory symlinks."""
+    root = Path(root)
+    result = {}
+    for directory, directories, files in os.walk(root, followlinks=False):
+        current = Path(directory)
+        in_cache = '.stack-work' in current.relative_to(root).parts
+        # A directory alias can hide a nested project or a cache ancestor.
+        # Clean source exports with real directories are the qualified input.
+        for name in directories + files:
+            if (current/name).is_symlink() and (name in directories or in_cache or name == '.stack-work'):
+                raise ValueError('symlinked project/cache directory is outside qualification')
+        if in_cache and current.name == 'setup' and 'setup' in files:
+            path = current/'setup'
+            result[str(path.relative_to(root))] = digest(path)
+    return result
+
+
+def require_enrollment_evidence(previous, current, observed):
+    """Allow zero-setup commands, but never enroll unobserved executable bytes."""
+    executed = {row['sha256'] for row in observed}
+    missing = [name for name, sha in current.items()
+               if previous.get(name) != sha and sha not in executed]
+    if missing:
+        raise ValueError('new setup cache entry lacks invocation evidence: '+', '.join(missing))

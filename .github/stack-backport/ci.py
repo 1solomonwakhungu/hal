@@ -13,11 +13,29 @@ import urllib.request
 from prepare import prepare
 
 
+def compiler_prefix(launcher):
+    """Find the installed bindist, even when PATH exposes a ghcup shim."""
+    env = {'PATH': os.environ['PATH'], 'GHC_ENVIRONMENT': '-'}
+    def libdir(command):
+        result = subprocess.check_output([str(command), '--print-libdir'], env=env, text=True).strip()
+        if not result or not Path(result).is_absolute():
+            raise ValueError('compiler did not report an absolute library directory')
+        return Path(result).resolve()
+    reported = libdir(launcher)
+    if reported.parts[-3:] != ('lib', 'ghc-9.10.3', 'lib'):
+        raise ValueError('unsupported compiler installation layout')
+    prefix = reported.parents[2]
+    installed = prefix/'bin/ghc'
+    if (not installed.is_file() or not installed.resolve().is_relative_to(prefix)
+            or libdir(installed) != reported):
+        raise ValueError('compiler launcher and installation disagree')
+    return prefix
+
+
 def main(work, cached_archive=None):
     client = Path(shutil.which('cabal')).resolve()
     stack = Path(shutil.which('stack')).resolve()
-    # Use the installed wrapper's directory, not the resolved compiler ELF path.
-    compiler = Path(shutil.which('ghc')).absolute().parent.parent
+    compiler = compiler_prefix(Path(shutil.which('ghc')))
     lock = json.loads((Path(__file__).parent/'provenance.json').read_text())
     work = work.absolute()
     if work.exists():

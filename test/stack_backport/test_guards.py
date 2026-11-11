@@ -11,7 +11,7 @@ from unittest import mock
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT/'.github/stack-backport'))
-from cache_guard import digest, snapshot, verify
+from cache_guard import digest, snapshot, verify, project_setups, require_enrollment_evidence
 from prepare import extract
 import run as launcher
 import probe
@@ -60,6 +60,53 @@ class LauncherBoundaryTests(unittest.TestCase):
                 'AWS_SECRET_ACCESS_KEY': 'synthetic', 'GITHUB_TOKEN': 'synthetic'}, clear=True):
             self.assertEqual(probe.environment(self.work), {
                 'PATH': '/tools', 'HOME': str(self.work/'home'), 'GHC_ENVIRONMENT': '-'})
+
+    def test_logging_overrides_rejected_before_execution(self):
+        for flag in ['--verbosity=error', '--verbosity', '--silent', '--color=always',
+                     '--colour', '--terminal', '--no-time-in-log', '--rsl-in-log',
+                     '--stack-colors', '--terminal-width', '--no-dump-logs']:
+            with self.subTest(flag=flag), mock.patch.object(launcher.subprocess, 'Popen') as execute:
+                with self.assertRaisesRegex(ValueError, 'logging override'):
+                    launcher.execute(self.work, self.stack, ['build', flag], self.project)
+                execute.assert_not_called()
+
+    def test_symlinked_dist_directory_is_rejected(self):
+        target = self.root/'retained-dist/setup'
+        target.mkdir(parents=True)
+        (target/'setup').write_bytes(b'affected setup')
+        cache = self.project/'examples/.stack-work'
+        cache.mkdir(parents=True)
+        (cache/'dist').symlink_to(target.parent, target_is_directory=True)
+        with self.assertRaisesRegex(ValueError, 'symlinked project/cache directory'):
+            project_setups(self.project)
+
+    def test_symlinked_cache_root_is_rejected(self):
+        (self.project/'.stack-work').symlink_to(self.work, target_is_directory=True)
+        with self.assertRaisesRegex(ValueError, 'symlinked project/cache directory'):
+            project_setups(self.project)
+
+    def test_symlinked_nested_project_is_rejected(self):
+        (self.project/'examples').symlink_to(self.work, target_is_directory=True)
+        with self.assertRaisesRegex(ValueError, 'symlinked project/cache directory'):
+            project_setups(self.project)
+
+    def test_dangling_cache_alias_is_rejected(self):
+        (self.project/'.stack-work').symlink_to(self.root/'absent', target_is_directory=True)
+        with self.assertRaisesRegex(ValueError, 'symlinked project/cache directory'):
+            project_setups(self.project)
+
+    def test_new_enrollment_requires_observed_hash(self):
+        with self.assertRaisesRegex(ValueError, 'lacks invocation evidence'):
+            require_enrollment_evidence({}, {'setup': 'new'}, [])
+        require_enrollment_evidence({}, {'setup': 'new'}, [{'sha256': 'new'}])
+
+    def test_changed_enrollment_requires_observed_hash(self):
+        with self.assertRaisesRegex(ValueError, 'lacks invocation evidence'):
+            require_enrollment_evidence({'setup': 'old'}, {'setup': 'new'}, [{'sha256': 'old'}])
+
+    def test_no_new_setup_needs_no_execution_evidence(self):
+        require_enrollment_evidence({}, {}, [])
+        require_enrollment_evidence({'setup': 'same'}, {'setup': 'same'}, [])
 
 
 class SetupCacheTests(unittest.TestCase):
