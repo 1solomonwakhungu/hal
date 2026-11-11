@@ -13,7 +13,7 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-24.04
-    timeout-minutes: 30
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
@@ -22,11 +22,39 @@ jobs:
         with:
           ghc-version: '9.10.3'
           cabal-version: '3.14.1.1'
+          cabal-update: false
       - name: Install Stack
         uses: ./.github/actions/install_stack
-      - name: Test the fixed snapshot
+      - name: Install verified bootstrap Cabal
+        uses: ./.github/actions/install_cabal
+      - name: Test setup identity and release guards
         run: |
-          stack --no-docker --system-ghc --no-install-ghc test --jobs 2 --test-arguments="+RTS -N2 -RTS"
-          stack --no-docker --system-ghc --no-install-ghc ls dependencies json --test > stack-dependencies.json
-      - name: Build the examples
-        run: stack --no-docker --system-ghc --no-install-ghc --stack-yaml examples/stack.yaml build --jobs 2
+          python3 -B -m unittest discover -s test/stack_backport -v
+          python3 -B -m unittest discover -s test/release -v
+      - name: Prepare isolated Cabal backport
+        run: python3 .github/stack-backport/ci.py --work "$RUNNER_TEMP/hal-stack-backport"
+      - name: Retrieve public sources without executing package setups
+        run: |
+          stack test --dry-run --prefetch
+          stack --stack-yaml examples/stack.yaml build --dry-run --prefetch
+      - name: Qualify tests, examples, setup routes and synthetic release without network
+        run: |
+          sudo -n unshare --net -- sh -c 'set -eu; ip link set lo up; exec "$@"' sh \
+            env -i PATH="$PATH" LANG=C.UTF-8 \
+            python3 .github/stack-backport/qualify.py --work "$RUNNER_TEMP/hal-stack-backport"
+      - name: Retain setup qualification evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: stack-backport-linux-x86-64
+          if-no-files-found: error
+          retention-days: 14
+          path: |
+            ${{ runner.temp }}/hal-stack-backport/*.json
+            ${{ runner.temp }}/hal-stack-backport/logs/
+            ${{ runner.temp }}/hal-stack-backport/header-probe/*.log
+            ${{ runner.temp }}/hal-stack-backport/header-probe/*.json
+            ${{ runner.temp }}/hal-stack-backport/qualification/
+            ${{ runner.temp }}/hal-stack-backport/invocations/
+            ${{ runner.temp }}/hal-stack-backport/setup-links/
+            ${{ runner.temp }}/hal-stack-backport/release/
