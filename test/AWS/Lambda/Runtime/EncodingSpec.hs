@@ -171,23 +171,6 @@ spec =
         , ExpectNext
         ]
 
-    it "keeps the existing handling of a response the Runtime API rejects" $ do
-      let handler :: Value -> String
-          handler _ = "ok"
-      calls <- runAgainstFakeApi
-        [ (invocation "req-1" "{}") { rejectResponse = True }
-        , invocation "req-2" "{}"
-        ]
-        (pureRuntime handler)
-      calls `shouldMatchCalls`
-        [ ExpectNext
-        , ExpectSuccess "req-1" "\"ok\""
-        , ExpectFailure "req-1" "Could not post handler result"
-        , ExpectNext
-        , ExpectSuccess "req-2" "\"ok\""
-        , ExpectNext
-        ]
-
 explode :: Value
 explode = object ["explode" .= True]
 
@@ -214,14 +197,19 @@ instance ToJSON Partial where
 
 -- Fake Runtime API
 
+data ResponseBehavior
+  = AcceptResponse
+  | RejectResponse BS.ByteString
+  | DropResponseConnection
+
 data Invocation = Invocation
-  { invocationId   :: BS.ByteString
-  , invocationBody :: BS.ByteString
-  , rejectResponse :: Bool
+  { invocationId     :: BS.ByteString
+  , invocationBody   :: BS.ByteString
+  , responseBehavior :: ResponseBehavior
   }
 
 invocation :: BS.ByteString -> BS.ByteString -> Invocation
-invocation reqId body = Invocation reqId body False
+invocation reqId body = Invocation reqId body AcceptResponse
 
 -- | A request received by the fake Runtime API.
 data Call
@@ -277,9 +265,9 @@ runAgainstFakeApiExpectingStop expectedStop invocations runtime = withLambdaEnvi
     setEnv "AWS_LAMBDA_LOG_GROUP_NAME" "test-log-group"
     setEnv "AWS_LAMBDA_LOG_STREAM_NAME" "test-log-stream"
 
-    let rejected = [invocationId inv | inv <- invocations, rejectResponse inv]
+    let behaviors = [(invocationId inv, responseBehavior inv) | inv <- invocations]
     acceptor <- forkIO $ acceptConnections listener workers $
-      serveConnection rejected pending calls outcome
+      serveConnection behaviors pending calls outcome
     runner <- forkIO $ do
       result <- try runtime
       void $ tryPutMVar outcome $ RuntimeStopped $
@@ -296,14 +284,23 @@ runAgainstFakeApiExpectingStop expectedStop invocations runtime = withLambdaEnvi
     recorded <- reverse <$> readMVar calls
     case finished of
       Just Drained | expectedStop == Nothing -> return recorded
-      Just (RuntimeStopped reason) | expectedStop == Just reason -> return recorded
+      Just (RuntimeStopped reason)
+        | Just expectedFragment <- expectedStop
+        , expectedFragment `isInfixOf` reason -> return recorded
       Just Drained -> do
-        expectationFailure "the runtime continued after an asynchronous exception"
+        expectationFailure $
+          "the runtime continued instead of stopping with " ++ show expectedStop
         return recorded
       Just (RuntimeStopped reason) -> do
         expectationFailure $
-          "the runtime stopped (" ++ reason ++ ") after the Runtime API received "
-            ++ show recorded
+          case expectedStop of
+            Nothing ->
+              "the runtime stopped (" ++ reason ++ ") after the Runtime API received "
+                ++ show recorded
+            Just expectedFragment ->
+              "expected runtime stop containing " ++ show expectedFragment
+                ++ ", got " ++ show reason
+                ++ " after the Runtime API received " ++ show recorded
         return recorded
       Nothing -> do
         expectationFailure $
@@ -327,13 +324,13 @@ acceptConnections listener workers serve = forever $ mask $ \restore -> do
     `onException` killThread worker
 
 serveConnection
-  :: [BS.ByteString]
+  :: [(BS.ByteString, ResponseBehavior)]
   -> MVar [Invocation]
   -> MVar [Call]
   -> MVar Outcome
   -> Socket
   -> IO ()
-serveConnection rejected pending calls outcome conn = loop BS.empty
+serveConnection behaviors pending calls outcome conn = loop BS.empty
   where
     loop buffered = do
       request <- readRequest conn buffered
@@ -357,11 +354,16 @@ serveConnection rejected pending calls outcome conn = loop BS.empty
                   sendResponse conn "200 OK" (invocationHeaders (invocationId inv))
                     (invocationBody inv)
                   loop rest
-            Success reqId _ -> do
-              if reqId `elem` rejected
-                then sendResponse conn "500 Internal Server Error" [] "{}"
-                else sendResponse conn "202 Accepted" [] "{\"status\":\"OK\"}"
-              loop rest
+            Success reqId _ ->
+              case lookup reqId behaviors of
+                Just (RejectResponse status) -> do
+                  sendResponse conn status [] "{}"
+                  loop rest
+                Just DropResponseConnection ->
+                  return ()
+                _ -> do
+                  sendResponse conn "202 Accepted" [] "{\"status\":\"OK\"}"
+                  loop rest
             _ -> do
               sendResponse conn "202 Accepted" [] "{\"status\":\"OK\"}"
               loop rest

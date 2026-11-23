@@ -180,7 +180,7 @@ class Lane:
     def test_hal(self, name, root, args):
         text = self.command(name + "-test", ["cabal", "test", "all", "--test-show-details=direct",
                             "--test-options=+RTS -N2 -RTS"] + args, root)
-        if "102 examples, 0 failures" not in text:
+        if "105 examples, 0 failures" not in text:
             raise ValueError("unexpected HAL suite result; update qualification deliberately")
         self.command(name + "-check", ["cabal", "check"], root)
 
@@ -283,7 +283,7 @@ class Lane:
         # Deliberate Custom/v1 deletion controls run only in disposable fixtures.
         qualify_headers(self)
         self.routes()
-        write_json(self.work / "results.json", {"HAL_examples": 102, "sdist_examples": 102,
+        write_json(self.work / "results.json", {"HAL_examples": 105, "sdist_examples": 105,
                     "example_executables": 5, "sdist_sha256": sha256(archives[0].read_bytes()),
                     "hpack_sha256": sha256(hpack.read_bytes()),
                     "scope": "Cabal lane only; raw advisory matches are not suppressed"})

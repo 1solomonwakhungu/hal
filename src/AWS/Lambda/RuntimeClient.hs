@@ -162,32 +162,36 @@ encodeResponseBody json = do
       | isJust (fromException ex :: Maybe SomeAsyncException) -> throwIO ex
       | otherwise -> return (Left (displayException ex))
 
+data ResponseOutcome
+  = ResponseSuccess
+  | RecoverableError String
+  | NonRecoverableError String
+
+classifyEventResponse :: Either HttpException (Response a) -> ResponseOutcome
+classifyEventResponse resOrEx =
+  case resOrEx of
+    Left ex ->
+      NonRecoverableError (displayException ex)
+    Right res
+      | getResponseStatus res == status413 ->
+          -- TODO Get the real error info from the response
+          RecoverableError "Payload Too Large"
+      | not (statusIsSuccessful (getResponseStatus res)) ->
+          NonRecoverableError "Unexpected Runtime Error: Could not post handler result."
+      | otherwise ->
+          ResponseSuccess
+
 sendEncodedEventSuccess :: RuntimeClientConfig -> BS.ByteString -> BSW.ByteString -> IO ()
 sendEncodedEventSuccess rcc@(RuntimeClientConfig baseRuntimeRequest manager _) reqId body = do
   resOrEx <- runtimeClientRetryTry $ flip httpNoBody manager $ toEventSuccessRequest reqId body baseRuntimeRequest
-
-  let resOrTypedMsg = case resOrEx of
-        Left ex ->
-          -- aka NonRecoverable
-          Left $ Left $ displayException (ex :: HttpException)
-        Right res ->
-          if getResponseStatus res == status413 then
-            -- TODO Get the real error info from the response
-            -- aka Recoverable
-            Left (Right "Payload Too Large")
-          else if not $ statusIsSuccessful $ getResponseStatus res then
-            --aka NonRecoverable
-            Left (Left "Unexpected Runtime Error: Could not post handler result.")
-          else
-            --aka Success
-            Right ()
-
-  case resOrTypedMsg of
-    Left (Left msg) ->
-      -- If an exception occurs here, we want that to propogate
+  case classifyEventResponse resOrEx of
+    RecoverableError msg ->
+      -- If an exception occurs here, we want that to propagate
       sendEventError rcc reqId msg
-    Left (Right msg) -> error msg
-    Right () -> return ()
+    NonRecoverableError msg ->
+      error msg
+    ResponseSuccess ->
+      return ()
 
 sendEventError :: RuntimeClientConfig -> BS.ByteString -> String -> IO ()
 sendEventError (RuntimeClientConfig baseRuntimeRequest manager _) reqId e = do

@@ -114,6 +114,7 @@ test-suite hal-test
       AWS.Lambda.Events.SQS.BatchResponse.Spec
       AWS.Lambda.Events.SQS.Spec
       AWS.Lambda.Runtime.EncodingSpec
+      AWS.Lambda.Runtime.ResponseSpec
       AWS.Lambda.Runtime.TraceSpec
       DependencySpec
       Gen.Header
